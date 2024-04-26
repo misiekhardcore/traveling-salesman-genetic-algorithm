@@ -1,7 +1,13 @@
 {
-  "name": "traveling-alesman-genetic-algorithm",
-  "version": "0.1.0",
+  "name": "travelling-salesman-genetic-algorithm",
+  "version": "0.0.0",
   "private": true,
+  "description": "Travelling Salesman Genetic Algorithm",
+  "main": "index.js",
+  "author": {
+    "email": "konopskiwebdev@gmail.com",
+    "name": "misiekhardcore"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -36,6 +42,7 @@
     "lint-staged": "^15.2.1",
     "prettier": "^3.2.5",
     "sass": "^1.75.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
