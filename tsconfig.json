@@ -24,6 +24,13 @@
     },
     "types": ["@eslint/eslintrc"]
   },
-  "include": ["*.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/__mocks__/*.js"],
+  "include": [
+    "*.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/__mocks__/*.js",
+    "eslint.config.mjs"
+  ],
   "exclude": ["node_modules", "cypress.config.ts", "./cypress/**"]
 }
