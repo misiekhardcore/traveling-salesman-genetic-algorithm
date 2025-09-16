@@ -1,0 +1,1 @@
+export { SwapMutationStrategy } from './SwapMutationStrategy';

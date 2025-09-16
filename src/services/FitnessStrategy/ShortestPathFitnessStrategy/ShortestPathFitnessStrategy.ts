@@ -3,7 +3,9 @@ import { Individual, Point } from '@/entities';
 import { FitnessStrategy } from '../FitnessStrategy';
 
 export class ShortestPathFitnessStrategy implements FitnessStrategy {
-  constructor(private points: Point[]) {}
+  name = 'Shortest Path Fitness';
+
+  constructor(public points: Point[]) {}
 
   getIndividualFitness(individual: Individual): number {
     return 1 / this.getPathLength(individual.genes);
@@ -15,6 +17,10 @@ export class ShortestPathFitnessStrategy implements FitnessStrategy {
 
       return distance + this.points[pointIndex].getDistanceTo(this.points[nextPointIndex]);
     }, 0);
+
+    if (distance === 0) {
+      return 1;
+    }
 
     return distance;
   }

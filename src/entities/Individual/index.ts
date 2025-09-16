@@ -1,1 +1,1 @@
-export { Individual } from './Individual';
+export { Individual, IndividualImpl } from './Individual';

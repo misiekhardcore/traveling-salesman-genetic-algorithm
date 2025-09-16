@@ -1,0 +1,1 @@
+export { SinglePointCrossoverStrategy } from './SinglePointCrossover';
