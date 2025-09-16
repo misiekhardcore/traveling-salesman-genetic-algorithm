@@ -2,8 +2,16 @@
 
 import { useEffect, useMemo, useState } from 'react';
 
-import { Point, Population } from '@/entities';
-import { ShortestPathFitnessStrategy } from '@/services';
+import { IndividualImpl, Point, Population } from '@/entities';
+import {
+  OrderCrossoverStrategy,
+  SwapMutationStrategy,
+  ShortestPathFitnessStrategy,
+  ShuffleMutationStrategy,
+  SinglePointCrossoverStrategy,
+  MutationStrategy,
+  CrossoverStrategy,
+} from '@/services';
 
 import './page.scss';
 
@@ -15,6 +23,16 @@ const MUTATION_RATE = 0.01;
 
 const FITNESS_STRATEGY = new ShortestPathFitnessStrategy([]);
 
+const mutationStrategiesMap: Record<string, typeof MutationStrategy> = {
+  [ShuffleMutationStrategy.label]: ShuffleMutationStrategy,
+  [SwapMutationStrategy.label]: SwapMutationStrategy,
+};
+
+const crossoverStrategiesMap: Record<string, typeof CrossoverStrategy> = {
+  [OrderCrossoverStrategy.label]: OrderCrossoverStrategy,
+  [SinglePointCrossoverStrategy.label]: SinglePointCrossoverStrategy,
+};
+
 export default function Home() {
   const [points, setPoints] = useState<Point[]>(
     Point.getRandomPoints(POINTS_COUNT, CANVAS_WIDTH, CANVAS_HEIGHT)
@@ -23,10 +41,23 @@ export default function Home() {
     FITNESS_STRATEGY.setPoints(points);
     return FITNESS_STRATEGY;
   }, [points]);
+  const [mutationStrategy, setMutationStrategy] = useState<MutationStrategy>(
+    new ShuffleMutationStrategy()
+  );
+  const [crossoverStrategy, setCrossoverStrategy] = useState<CrossoverStrategy>(
+    new OrderCrossoverStrategy()
+  );
   const [mutationRate, setMutationRate] = useState(MUTATION_RATE);
   const [pointsCount, setPointsCount] = useState(POINTS_COUNT);
   const [population, setPopulation] = useState<Population>(() => {
-    return Population.getRandomPopulation(POPULATION_SIZE, points, fitnessStrategy, mutationRate);
+    return Population.getRandomPopulation(
+      IndividualImpl,
+      POPULATION_SIZE,
+      points,
+      fitnessStrategy,
+      mutationStrategy,
+      crossoverStrategy
+    );
   });
   const [intervalRef, setIntervalRef] = useState<NodeJS.Timeout>();
 
@@ -69,10 +100,12 @@ export default function Home() {
     setPopulation(() => {
       fitnessStrategy.setPoints(newPoints);
       return Population.getRandomPopulation(
+        IndividualImpl,
         POPULATION_SIZE,
         newPoints,
         fitnessStrategy,
-        mutationRate
+        mutationStrategy,
+        crossoverStrategy
       );
     });
   }
@@ -93,16 +126,53 @@ export default function Home() {
     setPopulation(() => {
       fitnessStrategy.setPoints(newPoints);
       return Population.getRandomPopulation(
+        IndividualImpl,
         POPULATION_SIZE,
         newPoints,
         fitnessStrategy,
-        mutationRate
+        mutationStrategy,
+        crossoverStrategy
       );
     });
   }
 
+  function changeMutationStrategy(newMutationStrategy: string) {
+    const mutationStrategy = new mutationStrategiesMap[newMutationStrategy]();
+    mutationStrategy.setMutationRate(mutationRate);
+    setMutationStrategy(mutationStrategy);
+    population.setMutationStrategy(mutationStrategy);
+  }
+
+  function changeCrossoverStrategy(newCrossoverStrategy: string) {
+    const crossoverStrategy = new crossoverStrategiesMap[newCrossoverStrategy]();
+    setCrossoverStrategy(crossoverStrategy);
+    population.setCrossoverStrategy(crossoverStrategy);
+  }
+
   return (
     <main>
+      <label>
+        Mutation strategy:
+        <select
+          value={mutationStrategy.label}
+          onChange={(e) => changeMutationStrategy(e.target.value)}
+        >
+          <option value={ShuffleMutationStrategy.label}>{ShuffleMutationStrategy.label}</option>
+          <option value={SwapMutationStrategy.label}>{SwapMutationStrategy.label}</option>
+        </select>
+      </label>
+      <label>
+        Crossover strategy:
+        <select
+          value={crossoverStrategy.label}
+          onChange={(e) => changeCrossoverStrategy(e.target.value)}
+        >
+          <option value={OrderCrossoverStrategy.label}>{OrderCrossoverStrategy.label}</option>
+          <option value={SinglePointCrossoverStrategy.label}>
+            {SinglePointCrossoverStrategy.label}
+          </option>
+        </select>
+      </label>
       <label>
         Mutation rate:
         <input
