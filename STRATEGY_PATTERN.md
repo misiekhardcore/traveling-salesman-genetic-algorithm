@@ -13,12 +13,15 @@ The genetic algorithm now supports the strategy pattern for three key operations
 ## Available Strategies
 
 ### Fitness Strategies
+
 - `ShortestPathFitnessStrategy` - Evaluates fitness based on path length (existing)
 
 ### Mutation Strategies
+
 - `ShuffleMutationStrategy` - Shuffles all genes when mutation occurs (default behavior)
 
 ### Crossover Strategies
+
 - `OrderCrossoverStrategy` - Order-based crossover preserving gene uniqueness (default behavior)
 
 ## Usage Examples
@@ -26,19 +29,14 @@ The genetic algorithm now supports the strategy pattern for three key operations
 ### Using Default Strategies
 
 ```typescript
-import { 
+import {
   ShortestPathFitnessStrategy,
   ShuffleMutationStrategy,
-  OrderCrossoverStrategy
+  OrderCrossoverStrategy,
 } from '@/services';
 import { Population, Point } from '@/entities';
 
-const points = [
-  new Point(0, 0),
-  new Point(1, 1),
-  new Point(2, 0),
-  new Point(1, -1)
-];
+const points = [new Point(0, 0), new Point(1, 1), new Point(2, 0), new Point(1, -1)];
 
 const fitnessStrategy = new ShortestPathFitnessStrategy(points);
 const mutationStrategy = new ShuffleMutationStrategy();
@@ -61,12 +59,7 @@ The implementation maintains backward compatibility. You can still use the old A
 
 ```typescript
 // This still works exactly as before
-const population = Population.getRandomPopulation(
-  10,
-  points,
-  fitnessStrategy,
-  0.1
-);
+const population = Population.getRandomPopulation(10, points, fitnessStrategy, 0.1);
 ```
 
 ### Adding Strategies to Existing Population
@@ -126,8 +119,7 @@ class MaximizeSum implements FitnessStrategy {
   }
 
   getFitnessSum(individuals: Individual[]): number {
-    return individuals.reduce((sum, individual) => 
-      sum + this.getIndividualFitness(individual), 0);
+    return individuals.reduce((sum, individual) => sum + this.getIndividualFitness(individual), 0);
   }
 }
 ```
