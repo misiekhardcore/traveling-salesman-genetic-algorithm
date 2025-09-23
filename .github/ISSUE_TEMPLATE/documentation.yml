@@ -1,0 +1,38 @@
+name: 📚 Documentation
+description: Improve or add documentation
+title: '[Docs]: '
+labels: ['documentation']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the documentation! Clear documentation is essential for the project's success.
+
+  - type: textarea
+    id: proposed-changes
+    attributes:
+      label: Proposed Changes
+      description: Describe your proposed documentation improvements
+      placeholder: What changes do you want to make to the documentation?
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any additional information about the documentation
+      placeholder: Links to similar documentation, examples, or other context...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm the following
+      options:
+        - label: I have identified a specific documentation gap
+          required: true
+        - label: I will provide clear, well-structured content
+          required: true
+        - label: I will include relevant examples where appropriate
+          required: true

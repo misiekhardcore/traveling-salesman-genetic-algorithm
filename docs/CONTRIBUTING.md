@@ -1,225 +1,216 @@
 # Contributing Guide
 
-Thank you for your interest in contributing to the Traveling Salesman Genetic Algorithm project! This guide will help you get started.
+Thank you for your interest in contributing to the Traveling Salesman Genetic Algorithm project! This guide provides practical instructions for contributors.
 
 ## Development Setup
 
 ### Prerequisites
 
 - Node.js 18 or higher
-- Yarn package manager
+- Yarn v4 package manager
 - Git
 
-### Getting Started
-
-1. **Fork the repository**
-
-   ```bash
-   # Fork on GitHub, then clone your fork
-   git clone https://github.com/YOUR_USERNAME/travelling-salesman-genetic-algorithm.git
-   cd travelling-salesman-genetic-algorithm
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   yarn install
-   ```
-
-3. **Start development server**
-
-   ```bash
-   yarn dev
-   ```
-
-4. **Run tests**
-   ```bash
-   yarn test
-   ```
-
-## Project Structure
-
-```
-src/
-├── app/                    # Next.js app directory
-│   ├── page.tsx           # Main application page
-│   └── layout.tsx         # App layout and metadata
-├── entities/              # Core domain objects
-│   ├── Individual/        # Genetic algorithm individual
-│   ├── Point/            # City/point representation
-│   └── Population/       # Population management
-├── services/             # Algorithm strategies
-│   ├── CrossoverStrategy/ # Crossover implementations
-│   ├── FitnessStrategy/  # Fitness calculation
-│   └── MutationStrategy/ # Mutation implementations
-├── utils/               # Utility functions
-├── integration/         # Integration tests
-└── examples/           # Usage examples
-```
-
-## Code Style
-
-This project uses ESLint and Prettier for code formatting:
+### Setup
 
 ```bash
+# Fork and clone the repository
+git clone https://github.com/YOUR_USERNAME/travelling-salesman-genetic-algorithm.git
+cd travelling-salesman-genetic-algorithm
+
+# Install dependencies
+yarn install
+
+# Start development server
+yarn dev
+```
+
+### Verify Setup
+
+```bash
+# Run all tests
+yarn test
+
 # Check code style
 yarn lint
 
-# Fix code style issues
-yarn lint:fix
+# Build the project
+yarn build
 ```
 
-### Style Guidelines
+## Development Workflow
 
-- Use TypeScript for all new code
-- Follow existing naming conventions
-- Add JSDoc comments for public APIs
-- Use meaningful variable and function names
-- Keep functions small and focused
-
-## Adding New Features
-
-### Creating a New Strategy
-
-1. **Mutation Strategy Example**
-
-   ```typescript
-   // src/services/MutationStrategy/NewMutationStrategy/NewMutationStrategy.ts
-   import { MutationStrategy } from '../MutationStrategy';
-
-   export class NewMutationStrategy extends MutationStrategy {
-     static readonly label = 'New Mutation';
-
-     mutate(genes: number[], mutationRate: number): number[] {
-       // Implementation here
-       return genes;
-     }
-   }
-   ```
-
-2. **Add tests**
-
-   ```typescript
-   // src/services/MutationStrategy/NewMutationStrategy/NewMutationStrategy.test.ts
-   import { NewMutationStrategy } from './NewMutationStrategy';
-
-   describe('NewMutationStrategy', () => {
-     it('should mutate genes correctly', () => {
-       // Test implementation
-     });
-   });
-   ```
-
-3. **Export from index**
-   ```typescript
-   // src/services/MutationStrategy/index.ts
-   export { NewMutationStrategy } from './NewMutationStrategy';
-   ```
-
-### Testing Guidelines
-
-- Write unit tests for all new strategies
-- Include integration tests for complex features
-- Test edge cases and error conditions
-- Maintain test coverage above 80%
+### Available Scripts
 
 ```bash
-# Run tests
-yarn test
-
-# Run tests in watch mode
-yarn test:watch
+yarn dev          # Start development server with Turbopack
+yarn build        # Build for production (includes linting)
+yarn start        # Start production server
+yarn test         # Run all tests
+yarn test:watch   # Run tests in watch mode
+yarn lint         # Check code style (ESLint + Prettier)
+yarn lint:fix     # Fix code style issues automatically
 ```
 
-## Submitting Changes
+### Code Style Requirements
 
-### Commit Messages
+- **TypeScript**: Use interfaces for React component props, prefer functions over const
+- **React**: Use functional components only
+- **Linting**: ESLint + Prettier configuration enforced
 
-Use conventional commit format:
+## Adding New Strategies
 
+### 1. Mutation Strategy
+
+Create a new mutation strategy by extending the base class:
+
+```typescript
+// src/services/MutationStrategy/YourMutationStrategy/YourMutationStrategy.ts
+import { MutationStrategy } from '../MutationStrategy';
+
+export class YourMutationStrategy extends MutationStrategy {
+  static readonly label = 'Your Mutation';
+
+  mutate(genes: number[], mutationRate: number): number[] {
+    // Your mutation logic here
+    // Must return a new array, never modify the input
+    return [...genes]; // Example: return a copy
+  }
+}
 ```
-feat: add new mutation strategy
-fix: resolve crossover bug
-docs: update API documentation
-test: add integration tests
-refactor: improve code organization
+
+### 2. Crossover Strategy
+
+```typescript
+// src/services/CrossoverStrategy/YourCrossoverStrategy/YourCrossoverStrategy.ts
+import { CrossoverStrategy } from '../CrossoverStrategy';
+
+export class YourCrossoverStrategy extends CrossoverStrategy {
+  static readonly label = 'Your Crossover';
+
+  crossover(parent1: number[], parent2: number[]): [number[], number[]] {
+    // Your crossover logic here
+    // Must return two new arrays with all unique elements
+    return [parent1, parent2]; // Example
+  }
+}
 ```
 
-### Pull Request Process
+### 3. Fitness Strategy
 
-1. **Create a feature branch**
+```typescript
+// src/services/FitnessStrategy/YourFitnessStrategy/YourFitnessStrategy.ts
+import { FitnessStrategy } from '../FitnessStrategy';
+import { Individual, Point } from '@/entities';
 
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
+export class YourFitnessStrategy implements FitnessStrategy {
+  name = 'Your Fitness';
+  points: Point[] = [];
 
-2. **Make your changes**
-   - Write code following the style guidelines
-   - Add tests for new functionality
-   - Update documentation if needed
+  constructor(points: Point[]) {
+    this.points = points;
+  }
 
-3. **Test your changes**
+  setPoints(points: Point[]): void {
+    this.points = points;
+  }
 
-   ```bash
-   yarn test
-   yarn lint
-   yarn build
-   ```
+  getIndividualFitness(individual: Individual): number {
+    // Your fitness calculation logic
+    return 0; // Example
+  }
 
-4. **Commit your changes**
+  getFitnessSum(individuals: Individual[]): number {
+    return individuals.reduce((sum, individual) => sum + this.getIndividualFitness(individual), 0);
+  }
+}
+```
 
-   ```bash
-   git add .
-   git commit -m "feat: add your feature description"
-   ```
+## Testing Requirements
 
-5. **Push and create PR**
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-   Then create a pull request on GitHub.
+All strategies have to include comprehensive tests. See the test files for examples of how to test custom strategies.
 
-### PR Requirements
+### Test Coverage
+
+- **Unit Tests**: Every strategy must have comprehensive unit tests
+- **Integration Tests**: Test strategy interactions in `src/integration/`
+- **Edge Cases**: Test boundary conditions and error scenarios
+- **Coverage**: Maintain test coverage above 80%
+
+## Implementation Notes
+
+- All strategies extend base classes (`MutationStrategy`, `CrossoverStrategy`) or implement interfaces (`FitnessStrategy`)
+- Strategies operate on gene arrays (number[]) rather than Individual objects for better separation of concerns
+- All mutation and crossover strategies should return new arrays rather than modifying input arrays
+- The Population class manages strategy injection to Individual instances during reproduction
+- Mutation strategies have a configurable mutation rate that can be set via `setMutationRate()`
+- Each strategy has a static `label` property for identification in the UI
+
+### Running Tests
+
+```bash
+yarn test              # Run all tests once
+yarn test:watch        # Run tests in watch mode
+yarn test --coverage   # Run with coverage report
+```
+
+## Pull Request Process
+
+### Before Submitting
+
+1. **Create feature branch**: `git checkout -b feature/your-feature-name`
+2. **Make changes**: Follow code style guidelines
+3. **Add tests**: Include comprehensive test coverage
+4. **Run checks**: `yarn test && yarn lint && yarn build`
+5. **Commit**: Use conventional commit format
+
+### Commit Message Format
+
+Use [conventional commit](https://www.conventionalcommits.org/) format.
+
+### PR Requirements Checklist
 
 - [ ] All tests pass
 - [ ] Code follows style guidelines
-- [ ] New functionality is documented
-- [ ] PR description explains the changes
-- [ ] Screenshots for UI changes (if applicable)
+- [ ] Build succeeds
+- [ ] New functionality is tested
+- [ ] PR description explains changes
+- [ ] No breaking changes (or clearly documented)
 
-## Common Development Tasks
+### PR Description Template
 
-### Adding a New Algorithm
+```markdown
+## Description
 
-1. Create the strategy class
-2. Add comprehensive tests
-3. Update the main app to include the strategy
-4. Document the algorithm in the appropriate docs
-5. Add usage examples
+Brief description of changes
 
-### Improving Performance
+## Type of Change
 
-1. Profile the current implementation
-2. Identify bottlenecks
-3. Implement optimizations
-4. Verify performance improvements
-5. Update benchmarks if applicable
+- [ ] Bug fix
+- [ ] New feature (strategy)
+- [ ] Documentation update
+- [ ] Performance improvement
 
-### Fixing Bugs
+## Testing
 
-1. Write a failing test that reproduces the bug
-2. Fix the bug
-3. Verify the test now passes
-4. Check for similar issues in the codebase
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
+- [ ] Manual testing completed
 
-## Code Review Process
+## Checklist
 
-All submissions require code review:
+- [ ] Code follows project style guidelines
+- [ ] Self-review completed
+- [ ] Documentation updated if needed
+```
 
-1. **Automated Checks**: GitHub Actions will run tests and linting
-2. **Manual Review**: Maintainers will review code quality and design
-3. **Feedback**: Address any requested changes
-4. **Approval**: Once approved, the PR can be merged
+## Common Issues & Solutions
+
+### Strategy Implementation
+
+- **Always return new arrays**: Never modify input parameters
+- **Handle edge cases**: Empty arrays, single elements, etc.
+- **Maintain uniqueness**: Crossover strategies must preserve all unique elements
+- **Test thoroughly**: Include mutation rate 0, 1, and edge cases
 
 ## Getting Help
 
@@ -230,42 +221,23 @@ All submissions require code review:
 
 ## Areas for Contribution
 
-We welcome contributions in these areas:
+### High Priority
 
-### Algorithms
+- **New Strategies**: Mutation, crossover, and fitness strategies
+- **Performance**: Algorithm optimizations and parallel processing
+- **Testing**: Additional test cases and edge case coverage
 
-- New mutation strategies
-- New crossover strategies
-- Alternative fitness functions
-- Population management improvements
+### Medium Priority
 
-### Visualization
+- **Documentation**: API docs, tutorials, algorithm explanations
+- **Visualization**: Better graphics and performance monitoring
+- **Examples**: More usage examples and demonstrations
 
-- Better graphics and animations
-- Performance monitoring charts
-- Algorithm comparison tools
-- Interactive tutorials
+### Low Priority
 
-### Performance
-
-- Optimization of existing algorithms
-- Parallel processing
-- Memory usage improvements
-- Benchmarking tools
-
-### Documentation
-
-- API documentation
-- Tutorial content
-- Algorithm explanations
-- Video demonstrations
-
-### Testing
-
-- Additional test cases
-- Performance benchmarks
-- Visual regression tests
-- Fuzzing tests
+- **Tooling**: Development tools and benchmarking utilities
+- **CI/CD**: GitHub Actions improvements
+- **Accessibility**: UI/UX improvements
 
 ## License
 

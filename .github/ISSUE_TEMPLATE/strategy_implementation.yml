@@ -1,0 +1,48 @@
+name: 🧬 Strategy Implementation
+description: Implement a new genetic algorithm strategy
+title: '[Strategy]: '
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing a new strategy! This template helps ensure all new strategies follow the project's patterns and requirements.
+
+  - type: textarea
+    id: strategy-description
+    attributes:
+      label: Strategy Description
+      description: Describe how your strategy works
+      placeholder: Explain the algorithm and its benefits...
+    validations:
+      required: true
+
+  - type: textarea
+    id: algorithm-details
+    attributes:
+      label: Algorithm Details
+      description: Provide technical details about the implementation
+      placeholder: |
+        - How does the algorithm work?
+        - What are the key parameters?
+        - What makes it different from existing strategies?
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Any papers, articles, or resources that inspired this strategy
+      placeholder: Links to relevant research or documentation...
+
+  - type: checkboxes
+    id: requirements
+    attributes:
+      label: Requirements Checklist
+      description: Please confirm you understand the requirements
+      options:
+        - label: I have read the Contributing Guide
+          required: true
+        - label: I will include comprehensive unit tests
+          required: true

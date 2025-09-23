@@ -10,31 +10,19 @@ The genetic algorithm now supports the strategy pattern for three key operations
 2. **MutationStrategy** - How to mutate individual genes
 3. **CrossoverStrategy** - How to perform crossover between two parents
 
-## Available Strategies
-
-### Fitness Strategies
-
-- `ShortestPathFitnessStrategy` - Evaluates fitness based on path length (existing)
-
-### Mutation Strategies
-
-- `ShuffleMutationStrategy` - Shuffles all genes when mutation occurs (default behavior)
-
-### Crossover Strategies
-
-- `OrderCrossoverStrategy` - Order-based crossover preserving gene uniqueness (default behavior)
-
 ## Usage Examples
 
-### Using Default Strategies
+### Using Available Strategies
 
 ```typescript
 import {
   ShortestPathFitnessStrategy,
   ShuffleMutationStrategy,
+  SwapMutationStrategy,
   OrderCrossoverStrategy,
+  SinglePointCrossoverStrategy,
 } from '@/services';
-import { Population, Point } from '@/entities';
+import { Population, Point, IndividualImpl } from '@/entities';
 
 const points = [new Point(0, 0), new Point(1, 1), new Point(2, 0), new Point(1, -1)];
 
@@ -44,32 +32,26 @@ const crossoverStrategy = new OrderCrossoverStrategy();
 
 // Create population with all strategies
 const population = Population.getRandomPopulation(
+  IndividualImpl,
   10, // population size
   points,
   fitnessStrategy,
-  0.1, // mutation rate
   mutationStrategy,
   crossoverStrategy
 );
 ```
 
-### Backward Compatibility
-
-The implementation maintains backward compatibility. You can still use the old API:
+### Switching Between Available Strategies
 
 ```typescript
-// This still works exactly as before
-const population = Population.getRandomPopulation(10, points, fitnessStrategy, 0.1);
-```
+// Switch to swap mutation
+population.setMutationStrategy(new SwapMutationStrategy());
 
-### Adding Strategies to Existing Population
+// Switch to single point crossover
+population.setCrossoverStrategy(new SinglePointCrossoverStrategy());
 
-```typescript
-const population = new Population(individuals, fitnessStrategy, 0.1);
-
-// Add strategies later
-population.setMutationStrategy(new ShuffleMutationStrategy());
-population.setCrossoverStrategy(new OrderCrossoverStrategy());
+// Set mutation rate (applies to all mutation strategies)
+population.setMutationRate(0.05);
 ```
 
 ### Creating Custom Strategies
@@ -79,10 +61,14 @@ population.setCrossoverStrategy(new OrderCrossoverStrategy());
 ```typescript
 import { MutationStrategy } from '@/services';
 
-class SwapMutationStrategy implements MutationStrategy {
-  mutate(genes: number[], mutationRate: number): number[] {
+class CustomMutationStrategy extends MutationStrategy {
+  static readonly label = 'Custom Mutation';
+  readonly label = CustomMutationStrategy.label;
+
+  mutate(genes: number[]): number[] {
     const result = [...genes];
-    if (Math.random() < mutationRate && genes.length > 1) {
+    if (Math.random() < this.mutationRate && genes.length > 1) {
+      // Custom mutation logic here
       const i = Math.floor(Math.random() * genes.length);
       const j = Math.floor(Math.random() * genes.length);
       [result[i], result[j]] = [result[j], result[i]];
@@ -97,12 +83,22 @@ class SwapMutationStrategy implements MutationStrategy {
 ```typescript
 import { CrossoverStrategy } from '@/services';
 
-class SinglePointCrossoverStrategy implements CrossoverStrategy {
+class CustomCrossoverStrategy extends CrossoverStrategy {
+  static readonly label = 'Custom Crossover';
+  readonly label = CustomCrossoverStrategy.label;
+
   crossover(parent1: number[], parent2: number[]): [number[], number[]] {
+    // Custom crossover logic here
     const point = Math.floor(Math.random() * parent1.length);
-    const child1 = [...parent1.slice(0, point), ...parent2.slice(point)];
-    const child2 = [...parent2.slice(0, point), ...parent1.slice(point)];
+    const child1 = this.createChild(parent1, parent2, point);
+    const child2 = this.createChild(parent2, parent1, point);
     return [child1, child2];
+  }
+
+  private createChild(parent1: number[], parent2: number[], crossoverPoint: number): number[] {
+    const firstPart = parent1.slice(0, crossoverPoint);
+    const remaining = parent2.filter((gene) => !firstPart.includes(gene));
+    return [...firstPart, ...remaining];
   }
 }
 ```
@@ -111,10 +107,22 @@ class SinglePointCrossoverStrategy implements CrossoverStrategy {
 
 ```typescript
 import { FitnessStrategy } from '@/services';
-import { Individual } from '@/entities';
+import { Individual, Point } from '@/entities';
 
-class MaximizeSum implements FitnessStrategy {
+class CustomFitnessStrategy implements FitnessStrategy {
+  name = 'Custom Fitness';
+  points: Point[] = [];
+
+  constructor(points: Point[]) {
+    this.points = points;
+  }
+
+  setPoints(points: Point[]): void {
+    this.points = points;
+  }
+
   getIndividualFitness(individual: Individual): number {
+    // Custom fitness calculation
     return individual.genes.reduce((sum, gene) => sum + gene, 0);
   }
 
@@ -123,54 +131,3 @@ class MaximizeSum implements FitnessStrategy {
   }
 }
 ```
-
-## Benefits
-
-1. **Modularity** - Each strategy can be developed and tested independently
-2. **Extensibility** - Easy to add new algorithms without changing core logic
-3. **Reusability** - Strategies can be shared across different problems
-4. **Testability** - Each strategy can be unit tested in isolation
-5. **Flexibility** - Mix and match different strategies for experimentation
-6. **Backward Compatibility** - Existing code continues to work without changes
-
-## Strategy Interface Reference
-
-### MutationStrategy
-
-```typescript
-interface MutationStrategy {
-  mutate(genes: number[], mutationRate: number): number[];
-}
-```
-
-### CrossoverStrategy
-
-```typescript
-interface CrossoverStrategy {
-  crossover(parent1: number[], parent2: number[]): [number[], number[]];
-}
-```
-
-### FitnessStrategy (existing)
-
-```typescript
-interface FitnessStrategy {
-  getIndividualFitness(individual: Individual): number;
-  getFitnessSum(individuals: Individual[]): number;
-}
-```
-
-## Testing
-
-All strategies include comprehensive unit tests. See the test files for examples of how to test custom strategies:
-
-- `src/services/MutationStrategy/ShuffleMutationStrategy/ShuffleMutationStrategy.test.ts`
-- `src/services/CrossoverStrategy/OrderCrossoverStrategy/OrderCrossoverStrategy.test.ts`
-- `src/integration/StrategyPattern.test.ts`
-
-## Implementation Notes
-
-- Strategies are optional - the system falls back to original behavior if no strategy is provided
-- Strategies operate on gene arrays (number[]) rather than Individual objects for better separation of concerns
-- All mutation and crossover strategies should return new arrays rather than modifying input arrays
-- The Population class manages strategy injection to Individual instances during reproduction

@@ -1,0 +1,47 @@
+name: ⚡ Performance Improvement
+description: Suggest or implement performance optimizations
+title: '[Performance]: '
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing to performance improvements! This template helps track performance-related enhancements.
+
+  - type: textarea
+    id: performance-issue
+    attributes:
+      label: Performance Issue Description
+      description: Describe the performance issue or area for improvement
+      placeholder: What performance problem are you addressing?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-optimization
+    attributes:
+      label: Proposed Optimization
+      description: Describe your proposed performance improvement
+      placeholder: How do you plan to improve performance?
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any additional information about the performance improvement
+      placeholder: Links to relevant research, profiling results, or other context...
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm the following
+      options:
+        - label: I have read the Contributing Guide
+          required: true
+        - label: I have identified a specific performance bottleneck
+          required: true
+        - label: I will add performance tests to prevent regressions
+          required: true
