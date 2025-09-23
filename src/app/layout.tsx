@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     'Interactive visualization of the Traveling Salesman Problem solved using genetic algorithms. Watch evolution in real-time with customizable mutation and crossover strategies.',
   keywords:
     'genetic algorithm, traveling salesman problem, TSP, optimization, evolution, visualization, algorithm',
-  authors: [{ name: 'misiekhardcore', email: 'konopskiwebdev@gmail.com' }],
+  authors: [{ name: 'misiekhardcore', url: 'https://github.com/misiekhardcore' }],
   creator: 'misiekhardcore',
   openGraph: {
     title: 'Traveling Salesman Genetic Algorithm',
