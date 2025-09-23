@@ -1,8 +1,8 @@
 {
-  "name": "travelling-salesman-genetic-algorithm",
+  "name": "traveling-salesman-genetic-algorithm",
   "version": "0.0.0",
   "private": true,
-  "description": "Travelling Salesman Genetic Algorithm",
+  "description": "traveling Salesman Genetic Algorithm",
   "main": "index.js",
   "author": {
     "email": "konopskiwebdev@gmail.com",

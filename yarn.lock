@@ -9002,9 +9002,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"travelling-salesman-genetic-algorithm@workspace:.":
+"traveling-salesman-genetic-algorithm@workspace:.":
   version: 0.0.0-use.local
-  resolution: "travelling-salesman-genetic-algorithm@workspace:."
+  resolution: "traveling-salesman-genetic-algorithm@workspace:."
   dependencies:
     "@eslint/eslintrc": "npm:3.3.1"
     "@eslint/js": "npm:9.36.0"

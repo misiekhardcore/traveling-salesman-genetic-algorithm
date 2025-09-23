@@ -14,8 +14,8 @@ Thank you for your interest in contributing to the Traveling Salesman Genetic Al
 
 ```bash
 # Fork and clone the repository
-git clone https://github.com/YOUR_USERNAME/travelling-salesman-genetic-algorithm.git
-cd travelling-salesman-genetic-algorithm
+git clone https://github.com/YOUR_USERNAME/traveling-salesman-genetic-algorithm.git
+cd traveling-salesman-genetic-algorithm
 
 # Install dependencies
 yarn install

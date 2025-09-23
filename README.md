@@ -24,8 +24,8 @@ An interactive web application that visualizes the Traveling Salesman Problem (T
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/misiekhardcore/travelling-salesman-genetic-algorithm.git
-cd travelling-salesman-genetic-algorithm
+git clone https://github.com/misiekhardcore/traveling-salesman-genetic-algorithm.git
+cd traveling-salesman-genetic-algorithm
 ```
 
 2. Install dependencies:
