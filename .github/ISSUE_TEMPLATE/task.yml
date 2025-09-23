@@ -1,0 +1,45 @@
+name: 🧹 Task
+description: Single task
+title: '[Task]: '
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping track tasks! This template helps ensure all tasks are properly tracked and managed.
+
+  - type: textarea
+    id: task-description
+    attributes:
+      label: What needs to be done?
+      description: Describe the task you want to track
+      placeholder: Describe the task...
+    validations:
+      required: true
+
+  - type: textarea
+    id: task-content
+    attributes:
+      label: Why should it be done?
+      description: Describe why the task should be done
+      placeholder: Describe why the task should be done...
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Any additional information about the task
+      placeholder: Any additional information that might be helpful...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm the following
+      options:
+        - label: I have read the Contributing Guide
+          required: true
