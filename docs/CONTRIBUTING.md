@@ -70,7 +70,7 @@ import { MutationStrategy } from '../MutationStrategy';
 export class YourMutationStrategy extends MutationStrategy {
   static readonly label = 'Your Mutation';
 
-  mutate(genes: number[], mutationRate: number): number[] {
+  mutate(genes: number[]): number[] {
     // Your mutation logic here
     // Must return a new array, never modify the input
     return [...genes]; // Example: return a copy
