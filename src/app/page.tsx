@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { IndividualImpl, Point, Population } from '@/entities';
 import {
@@ -11,6 +11,8 @@ import {
   SinglePointCrossoverStrategy,
   MutationStrategy,
   CrossoverStrategy,
+  ManhattanDistanceFitnessStrategy,
+  FitnessStrategy,
 } from '@/services';
 
 import './page.scss';
@@ -21,7 +23,10 @@ const CANVAS_WIDTH = 1000;
 const CANVAS_HEIGHT = 700;
 const MUTATION_RATE = 0.01;
 
-const FITNESS_STRATEGY = new ShortestPathFitnessStrategy([]);
+const fitnessStrategiesMap: Record<string, typeof FitnessStrategy> = {
+  [ShortestPathFitnessStrategy.label]: ShortestPathFitnessStrategy,
+  [ManhattanDistanceFitnessStrategy.label]: ManhattanDistanceFitnessStrategy,
+};
 
 const mutationStrategiesMap: Record<string, typeof MutationStrategy> = {
   [ShuffleMutationStrategy.label]: ShuffleMutationStrategy,
@@ -37,10 +42,9 @@ export default function Home() {
   const [points, setPoints] = useState<Point[]>(
     Point.getRandomPoints(POINTS_COUNT, CANVAS_WIDTH, CANVAS_HEIGHT)
   );
-  const fitnessStrategy = useMemo(() => {
-    FITNESS_STRATEGY.setPoints(points);
-    return FITNESS_STRATEGY;
-  }, [points]);
+  const [fitnessStrategy, setFitnessStrategy] = useState<FitnessStrategy>(
+    new ShortestPathFitnessStrategy(points)
+  );
   const [mutationStrategy, setMutationStrategy] = useState<MutationStrategy>(
     new ShuffleMutationStrategy()
   );
@@ -161,6 +165,12 @@ export default function Home() {
     });
   }
 
+  function changeFitnessStrategy(newFitnessStrategy: string) {
+    const fitnessStrategy = new fitnessStrategiesMap[newFitnessStrategy](points);
+    setFitnessStrategy(fitnessStrategy);
+    population.setFitnessStrategy(fitnessStrategy);
+  }
+
   function changeMutationStrategy(newMutationStrategy: string) {
     const mutationStrategy = new mutationStrategiesMap[newMutationStrategy]();
     mutationStrategy.setMutationRate(mutationRate);
@@ -177,13 +187,17 @@ export default function Home() {
   return (
     <main>
       <label>
-        Mutation strategy:
+        Fitness strategy:
         <select
-          value={mutationStrategy.label}
-          onChange={(e) => changeMutationStrategy(e.target.value)}
+          value={fitnessStrategy.label}
+          onChange={(e) => changeFitnessStrategy(e.target.value)}
         >
-          <option value={ShuffleMutationStrategy.label}>{ShuffleMutationStrategy.label}</option>
-          <option value={SwapMutationStrategy.label}>{SwapMutationStrategy.label}</option>
+          <option value={ShortestPathFitnessStrategy.label}>
+            {ShortestPathFitnessStrategy.label}
+          </option>
+          <option value={ManhattanDistanceFitnessStrategy.label}>
+            {ManhattanDistanceFitnessStrategy.label}
+          </option>
         </select>
       </label>
       <label>
@@ -196,6 +210,16 @@ export default function Home() {
           <option value={SinglePointCrossoverStrategy.label}>
             {SinglePointCrossoverStrategy.label}
           </option>
+        </select>
+      </label>
+      <label>
+        Mutation strategy:
+        <select
+          value={mutationStrategy.label}
+          onChange={(e) => changeMutationStrategy(e.target.value)}
+        >
+          <option value={ShuffleMutationStrategy.label}>{ShuffleMutationStrategy.label}</option>
+          <option value={SwapMutationStrategy.label}>{SwapMutationStrategy.label}</option>
         </select>
       </label>
       <label>
@@ -238,10 +262,14 @@ export default function Home() {
   );
 }
 
+function getPrimaryColor() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'black' : 'white';
+}
+
 function drawPoint(context: CanvasRenderingContext2D, point: Point) {
-  context.fillStyle = 'white';
+  context.fillStyle = getPrimaryColor();
   context.beginPath();
-  context.arc(point.x, point.y, 3, 0, Math.PI * 2);
+  context.arc(point.x, point.y, 8, 0, Math.PI * 2);
   context.fill();
   context.closePath();
 }
@@ -250,7 +278,7 @@ function drawPath({
   context,
   pointIndexes,
   points,
-  color = 'white',
+  color = getPrimaryColor(),
   width = 1,
 }: {
   context: CanvasRenderingContext2D;

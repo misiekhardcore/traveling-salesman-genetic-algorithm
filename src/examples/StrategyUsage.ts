@@ -6,7 +6,7 @@ import {
   CrossoverStrategy,
   OrderCrossoverStrategy,
 } from '@/services';
-import { Population, Point, IndividualImpl } from '@/entities';
+import { Population, Point, IndividualImpl, Individual } from '@/entities';
 
 /**
  * Example demonstrating how to use the strategy pattern
@@ -67,6 +67,36 @@ export function demonstrateStrategies() {
   };
 }
 
+// Custom fitness strategy example
+export class ManhattanDistanceFitnessStrategy extends FitnessStrategy {
+  static readonly label = 'Manhattan Distance Fitness';
+  readonly label = ManhattanDistanceFitnessStrategy.label;
+
+  setPoints(points: Point[]): void {
+    this.points = points;
+  }
+
+  getIndividualFitness(individual: Individual): number {
+    return 1 / this.getPathLength(individual.genes);
+  }
+
+  getFitnessSum(individuals: Individual[]): number {
+    return individuals.reduce((sum, individual) => sum + this.getIndividualFitness(individual), 0);
+  }
+
+  private getPathLength(path: number[]): number {
+    return path.reduce((distance, pointIndex, i) => {
+      const nextPointIndex = path[(i + 1) % path.length];
+
+      return distance + this.#getDistanceTo(this.points[pointIndex], this.points[nextPointIndex]);
+    }, 0);
+  }
+
+  #getDistanceTo(point1: Point, point2: Point): number {
+    return Math.abs(point1.x - point2.x) + Math.abs(point1.y - point2.y);
+  }
+}
+
 // Custom mutation strategy example
 export class SwapMutationStrategy extends MutationStrategy {
   name = 'Swap Mutation';
@@ -99,17 +129,17 @@ export class SinglePointCrossoverStrategy extends CrossoverStrategy {
  */
 export function demonstrateCustomStrategies() {
   const points = [new Point(0, 0), new Point(1, 1), new Point(2, 0)];
-  const fitnessStrategy = new ShortestPathFitnessStrategy(points);
 
   // Use custom strategies
   const customMutation = new SwapMutationStrategy();
   const customCrossover = new SinglePointCrossoverStrategy();
+  const customFitness = new ManhattanDistanceFitnessStrategy(points);
 
   const population = Population.getRandomPopulation(
     IndividualImpl,
     5,
     points,
-    fitnessStrategy,
+    customFitness,
     customMutation,
     customCrossover
   );

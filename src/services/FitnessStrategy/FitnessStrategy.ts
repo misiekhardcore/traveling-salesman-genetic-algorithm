@@ -1,11 +1,20 @@
 import { Individual, Point } from '@/entities';
 
-export interface FitnessStrategy {
-  name: string;
-  points: Point[];
+export class FitnessStrategy {
+  static readonly label: string = 'Fitness Strategy';
+  readonly label: string = FitnessStrategy.label;
 
-  setPoints(points: Point[]): void;
+  constructor(protected points: Point[]) {}
 
-  getIndividualFitness(individual: Individual): number;
-  getFitnessSum(individuals: Individual[]): number;
+  setPoints(points: Point[]): void {
+    this.points = points;
+  }
+
+  getIndividualFitness(_individual: Individual): number {
+    throw new Error('Not implemented');
+  }
+
+  getFitnessSum(_individuals: Individual[]): number {
+    throw new Error('Not implemented');
+  }
 }
