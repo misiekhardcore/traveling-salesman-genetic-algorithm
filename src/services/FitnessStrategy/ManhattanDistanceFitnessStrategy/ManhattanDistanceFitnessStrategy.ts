@@ -2,9 +2,9 @@ import { Individual, Point } from '@/entities';
 
 import { FitnessStrategy } from '../FitnessStrategy';
 
-export class ShortestPathFitnessStrategy extends FitnessStrategy {
-  static readonly label = 'Shortest Path Fitness';
-  readonly label = ShortestPathFitnessStrategy.label;
+export class ManhattanDistanceFitnessStrategy extends FitnessStrategy {
+  static readonly label = 'Manhattan Distance Fitness';
+  readonly label = ManhattanDistanceFitnessStrategy.label;
 
   getIndividualFitness(individual: Individual): number {
     return 1 / this.#getPathLength(individual.genes);
@@ -14,7 +14,9 @@ export class ShortestPathFitnessStrategy extends FitnessStrategy {
     const distance = path.reduce((distance, pointIndex, i) => {
       const nextPointIndex = path[(i + 1) % path.length];
 
-      return distance + this.#getDistanceTo(this.points[pointIndex], this.points[nextPointIndex]);
+      return (
+        distance + this.#getManhattanDistance(this.points[pointIndex], this.points[nextPointIndex])
+      );
     }, 0);
 
     if (distance === 0) {
@@ -24,8 +26,8 @@ export class ShortestPathFitnessStrategy extends FitnessStrategy {
     return distance;
   }
 
-  #getDistanceTo(point1: Point, point2: Point): number {
-    return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
+  #getManhattanDistance(point1: Point, point2: Point): number {
+    return Math.abs(point1.x - point2.x) + Math.abs(point1.y - point2.y);
   }
 
   getFitnessSum(individuals: Individual[]): number {

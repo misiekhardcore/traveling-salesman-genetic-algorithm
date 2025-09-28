@@ -1,6 +1,7 @@
 import {
   FitnessStrategy,
   ShortestPathFitnessStrategy,
+  ManhattanDistanceFitnessStrategy,
   MutationStrategy,
   ShuffleMutationStrategy,
   CrossoverStrategy,
@@ -45,21 +46,6 @@ describe('Strategy Pattern Integration', () => {
       expect(child2.genes).toHaveLength(individual2.genes.length);
     });
 
-    it('should work without strategies (fallback behavior)', () => {
-      const individual1 = new IndividualImpl([0, 1, 2, 3, 4], mutationStrategy, crossoverStrategy);
-      const individual2 = new IndividualImpl([4, 3, 2, 1, 0], mutationStrategy, crossoverStrategy);
-
-      // Test mutation fallback
-      const originalGenes = [...individual1.genes];
-      individual1.mutate(); // 100% mutation rate
-      expect(individual1.genes).toHaveLength(originalGenes.length);
-
-      // Test crossover fallback
-      const [child1, child2] = individual1.crossover(individual2);
-      expect(child1.genes).toHaveLength(individual1.genes.length);
-      expect(child2.genes).toHaveLength(individual2.genes.length);
-    });
-
     it('should allow strategy override in method calls', () => {
       const individual1 = new IndividualImpl([0, 1, 2, 3, 4], mutationStrategy, crossoverStrategy);
       const individual2 = new IndividualImpl([4, 3, 2, 1, 0], mutationStrategy, crossoverStrategy);
@@ -85,12 +71,12 @@ describe('Strategy Pattern Integration', () => {
         crossoverStrategy
       );
 
-      expect(population.individuals).toHaveLength(2);
+      expect(population.getIndividuals()).toHaveLength(2);
       expect(population.getBestIndividual()).toBeDefined();
 
       // Test evolution with strategies
       const newPopulation = population.evolve();
-      expect(newPopulation.individuals).toHaveLength(2);
+      expect(newPopulation.getIndividuals()).toHaveLength(2);
     });
 
     it('should work with getRandomPopulation using strategies', () => {
@@ -103,8 +89,8 @@ describe('Strategy Pattern Integration', () => {
         crossoverStrategy
       );
 
-      expect(population.individuals).toHaveLength(5);
-      expect(population.individuals[0].genes).toHaveLength(points.length);
+      expect(population.getIndividuals()).toHaveLength(5);
+      expect(population.getIndividuals()[0].genes).toHaveLength(points.length);
 
       // Test that strategies can be changed
       const newMutationStrategy = new ShuffleMutationStrategy();
@@ -114,10 +100,12 @@ describe('Strategy Pattern Integration', () => {
       population.setCrossoverStrategy(newCrossoverStrategy);
 
       const newPopulation = population.evolve();
-      expect(newPopulation.individuals).toHaveLength(5);
+      expect(newPopulation.getIndividuals()).toHaveLength(5);
     });
 
-    it('should maintain backward compatibility without strategies', () => {
+    it('should work with Manhattan distance fitness strategy', () => {
+      const manhattanFitnessStrategy = new ManhattanDistanceFitnessStrategy(points);
+
       const individuals = [
         new IndividualImpl([0, 1, 2, 3, 4], mutationStrategy, crossoverStrategy),
         new IndividualImpl([3, 0, 4, 2, 1], mutationStrategy, crossoverStrategy),
@@ -125,17 +113,52 @@ describe('Strategy Pattern Integration', () => {
 
       const population = new Population(
         individuals,
-        fitnessStrategy,
+        manhattanFitnessStrategy,
         mutationStrategy,
         crossoverStrategy
       );
 
-      expect(population.individuals).toHaveLength(2);
+      expect(population.getIndividuals()).toHaveLength(2);
       expect(population.getBestIndividual()).toBeDefined();
 
-      // Test evolution without strategies (fallback behavior)
+      // Test that Manhattan fitness gives different results than Euclidean
+      const euclideanFitness1 = fitnessStrategy.getIndividualFitness(individuals[0]);
+      const manhattanFitness1 = manhattanFitnessStrategy.getIndividualFitness(individuals[0]);
+
+      expect(euclideanFitness1).not.toEqual(manhattanFitness1);
+
+      // Test evolution with Manhattan distance strategy
       const newPopulation = population.evolve();
-      expect(newPopulation.individuals).toHaveLength(2);
+      expect(newPopulation.getIndividuals()).toHaveLength(2);
+    });
+
+    it('should work with Manhattan distance fitness strategy', () => {
+      const manhattanFitnessStrategy = new ManhattanDistanceFitnessStrategy(points);
+
+      const individuals = [
+        new IndividualImpl([0, 1, 2, 3, 4], mutationStrategy, crossoverStrategy),
+        new IndividualImpl([3, 0, 4, 2, 1], mutationStrategy, crossoverStrategy),
+      ];
+
+      const population = new Population(
+        individuals,
+        manhattanFitnessStrategy,
+        mutationStrategy,
+        crossoverStrategy
+      );
+
+      expect(population.getIndividuals()).toHaveLength(2);
+      expect(population.getBestIndividual()).toBeDefined();
+
+      // Test that Manhattan fitness gives different results than Euclidean
+      const euclideanFitness1 = fitnessStrategy.getIndividualFitness(individuals[0]);
+      const manhattanFitness1 = manhattanFitnessStrategy.getIndividualFitness(individuals[0]);
+
+      expect(euclideanFitness1).not.toEqual(manhattanFitness1);
+
+      // Test evolution with Manhattan distance strategy
+      const newPopulation = population.evolve();
+      expect(newPopulation.getIndividuals()).toHaveLength(2);
     });
   });
 });

@@ -1,4 +1,8 @@
-export { type FitnessStrategy, ShortestPathFitnessStrategy } from './FitnessStrategy';
+export {
+  FitnessStrategy,
+  ShortestPathFitnessStrategy,
+  ManhattanDistanceFitnessStrategy,
+} from './FitnessStrategy';
 export {
   MutationStrategy,
   ShuffleMutationStrategy,

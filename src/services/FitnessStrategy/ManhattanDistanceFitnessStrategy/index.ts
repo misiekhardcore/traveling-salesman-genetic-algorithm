@@ -1,0 +1,1 @@
+export { ManhattanDistanceFitnessStrategy } from './ManhattanDistanceFitnessStrategy';

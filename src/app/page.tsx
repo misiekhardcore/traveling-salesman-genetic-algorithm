@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { IndividualImpl, Point, Population } from '@/entities';
 import {
@@ -11,17 +11,22 @@ import {
   SinglePointCrossoverStrategy,
   MutationStrategy,
   CrossoverStrategy,
+  ManhattanDistanceFitnessStrategy,
+  FitnessStrategy,
 } from '@/services';
 
 import './page.scss';
 
-const POINTS_COUNT = 7;
-const POPULATION_SIZE = 100;
+const POINTS_COUNT = 10;
+const POPULATION_SIZE = 200;
 const CANVAS_WIDTH = 1000;
 const CANVAS_HEIGHT = 700;
 const MUTATION_RATE = 0.01;
 
-const FITNESS_STRATEGY = new ShortestPathFitnessStrategy([]);
+const fitnessStrategiesMap: Record<string, typeof FitnessStrategy> = {
+  [ShortestPathFitnessStrategy.label]: ShortestPathFitnessStrategy,
+  [ManhattanDistanceFitnessStrategy.label]: ManhattanDistanceFitnessStrategy,
+};
 
 const mutationStrategiesMap: Record<string, typeof MutationStrategy> = {
   [ShuffleMutationStrategy.label]: ShuffleMutationStrategy,
@@ -37,10 +42,9 @@ export default function Home() {
   const [points, setPoints] = useState<Point[]>(
     Point.getRandomPoints(POINTS_COUNT, CANVAS_WIDTH, CANVAS_HEIGHT)
   );
-  const fitnessStrategy = useMemo(() => {
-    FITNESS_STRATEGY.setPoints(points);
-    return FITNESS_STRATEGY;
-  }, [points]);
+  const [fitnessStrategy, setFitnessStrategy] = useState<FitnessStrategy>(
+    new ShortestPathFitnessStrategy(points)
+  );
   const [mutationStrategy, setMutationStrategy] = useState<MutationStrategy>(
     new ShuffleMutationStrategy()
   );
@@ -48,11 +52,11 @@ export default function Home() {
     new OrderCrossoverStrategy()
   );
   const [mutationRate, setMutationRate] = useState(MUTATION_RATE);
-  const [pointsCount, setPointsCount] = useState(POINTS_COUNT);
+  const [populationSize, setPopulationSize] = useState(POPULATION_SIZE);
   const [population, setPopulation] = useState<Population>(() => {
     return Population.getRandomPopulation(
       IndividualImpl,
-      POPULATION_SIZE,
+      populationSize,
       points,
       fitnessStrategy,
       mutationStrategy,
@@ -95,8 +99,9 @@ export default function Home() {
       clearInterval(intervalRef);
       setIntervalRef(undefined);
     }
-    const newPoints = Point.getRandomPoints(pointsCount, CANVAS_WIDTH, CANVAS_HEIGHT);
+    const newPoints = Point.getRandomPoints(POINTS_COUNT, CANVAS_WIDTH, CANVAS_HEIGHT);
     setPoints(newPoints);
+    setPopulationSize(POPULATION_SIZE);
     setPopulation(() => {
       fitnessStrategy.setPoints(newPoints);
       return Population.getRandomPopulation(
@@ -115,25 +120,55 @@ export default function Home() {
     population.setMutationRate(newMutationRate);
   }
 
+  function changePopulationSize(newPopulationSize: number) {
+    if (newPopulationSize === populationSize) {
+      return;
+    }
+
+    if (newPopulationSize < populationSize) {
+      population.removeIndividuals(populationSize - newPopulationSize);
+    } else {
+      const newIndividuals = createNewRandomIndividuals(newPopulationSize - populationSize, points);
+      population.addIndividuals(newIndividuals);
+    }
+    setPopulationSize(newPopulationSize);
+  }
+
+  function setNewRandomIndividuals() {
+    const newIndividuals = createNewRandomIndividuals(populationSize, points);
+    population.setIndividuals(newIndividuals);
+  }
+
+  function createNewRandomIndividuals(size: number, points: Point[]): IndividualImpl[] {
+    return Array.from({ length: size }, () =>
+      Population.getRandomIndividual(IndividualImpl, points, mutationStrategy, crossoverStrategy)
+    );
+  }
+
   function changePointsCount(newPointsCount: number) {
     if (intervalRef) {
       clearInterval(intervalRef);
       setIntervalRef(undefined);
     }
     const newPoints = Point.getRandomPoints(newPointsCount, CANVAS_WIDTH, CANVAS_HEIGHT);
-    setPointsCount(newPointsCount);
     setPoints(newPoints);
     setPopulation(() => {
       fitnessStrategy.setPoints(newPoints);
       return Population.getRandomPopulation(
         IndividualImpl,
-        POPULATION_SIZE,
+        population.getPopulationSize(),
         newPoints,
         fitnessStrategy,
         mutationStrategy,
         crossoverStrategy
       );
     });
+  }
+
+  function changeFitnessStrategy(newFitnessStrategy: string) {
+    const fitnessStrategy = new fitnessStrategiesMap[newFitnessStrategy](points);
+    setFitnessStrategy(fitnessStrategy);
+    population.setFitnessStrategy(fitnessStrategy);
   }
 
   function changeMutationStrategy(newMutationStrategy: string) {
@@ -152,13 +187,17 @@ export default function Home() {
   return (
     <main>
       <label>
-        Mutation strategy:
+        Fitness strategy:
         <select
-          value={mutationStrategy.label}
-          onChange={(e) => changeMutationStrategy(e.target.value)}
+          value={fitnessStrategy.label}
+          onChange={(e) => changeFitnessStrategy(e.target.value)}
         >
-          <option value={ShuffleMutationStrategy.label}>{ShuffleMutationStrategy.label}</option>
-          <option value={SwapMutationStrategy.label}>{SwapMutationStrategy.label}</option>
+          <option value={ShortestPathFitnessStrategy.label}>
+            {ShortestPathFitnessStrategy.label}
+          </option>
+          <option value={ManhattanDistanceFitnessStrategy.label}>
+            {ManhattanDistanceFitnessStrategy.label}
+          </option>
         </select>
       </label>
       <label>
@@ -171,6 +210,16 @@ export default function Home() {
           <option value={SinglePointCrossoverStrategy.label}>
             {SinglePointCrossoverStrategy.label}
           </option>
+        </select>
+      </label>
+      <label>
+        Mutation strategy:
+        <select
+          value={mutationStrategy.label}
+          onChange={(e) => changeMutationStrategy(e.target.value)}
+        >
+          <option value={ShuffleMutationStrategy.label}>{ShuffleMutationStrategy.label}</option>
+          <option value={SwapMutationStrategy.label}>{SwapMutationStrategy.label}</option>
         </select>
       </label>
       <label>
@@ -188,12 +237,23 @@ export default function Home() {
         Points count:
         <input
           type="number"
-          value={pointsCount}
+          value={points.length}
           onChange={(e) => changePointsCount(Number(e.target.value))}
           min={2}
           max={100}
         />
       </label>
+      <label>
+        Population size:
+        <input
+          type="number"
+          value={populationSize}
+          onChange={(e) => changePopulationSize(Number(e.target.value))}
+          min={1}
+          max={1000}
+        />
+      </label>
+      <button onClick={setNewRandomIndividuals}>New random individuals</button>
       <button onClick={toggleAuto}>{intervalRef ? 'pause' : 'run'}</button>
       <button onClick={() => setPopulation(population.evolve())}>next generation</button>
       <button onClick={reset}>reset</button>
@@ -202,10 +262,14 @@ export default function Home() {
   );
 }
 
+function getPrimaryColor() {
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'black' : 'white';
+}
+
 function drawPoint(context: CanvasRenderingContext2D, point: Point) {
-  context.fillStyle = 'white';
+  context.fillStyle = getPrimaryColor();
   context.beginPath();
-  context.arc(point.x, point.y, 3, 0, Math.PI * 2);
+  context.arc(point.x, point.y, 8, 0, Math.PI * 2);
   context.fill();
   context.closePath();
 }
@@ -214,7 +278,7 @@ function drawPath({
   context,
   pointIndexes,
   points,
-  color = 'white',
+  color = getPrimaryColor(),
   width = 1,
 }: {
   context: CanvasRenderingContext2D;
