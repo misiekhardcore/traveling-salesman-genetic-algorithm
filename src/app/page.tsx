@@ -15,8 +15,8 @@ import {
 
 import './page.scss';
 
-const POINTS_COUNT = 7;
-const POPULATION_SIZE = 100;
+const POINTS_COUNT = 10;
+const POPULATION_SIZE = 200;
 const CANVAS_WIDTH = 1000;
 const CANVAS_HEIGHT = 700;
 const MUTATION_RATE = 0.01;
@@ -48,11 +48,11 @@ export default function Home() {
     new OrderCrossoverStrategy()
   );
   const [mutationRate, setMutationRate] = useState(MUTATION_RATE);
-  const [pointsCount, setPointsCount] = useState(POINTS_COUNT);
+  const [populationSize, setPopulationSize] = useState(POPULATION_SIZE);
   const [population, setPopulation] = useState<Population>(() => {
     return Population.getRandomPopulation(
       IndividualImpl,
-      POPULATION_SIZE,
+      populationSize,
       points,
       fitnessStrategy,
       mutationStrategy,
@@ -95,8 +95,9 @@ export default function Home() {
       clearInterval(intervalRef);
       setIntervalRef(undefined);
     }
-    const newPoints = Point.getRandomPoints(pointsCount, CANVAS_WIDTH, CANVAS_HEIGHT);
+    const newPoints = Point.getRandomPoints(POINTS_COUNT, CANVAS_WIDTH, CANVAS_HEIGHT);
     setPoints(newPoints);
+    setPopulationSize(POPULATION_SIZE);
     setPopulation(() => {
       fitnessStrategy.setPoints(newPoints);
       return Population.getRandomPopulation(
@@ -115,19 +116,43 @@ export default function Home() {
     population.setMutationRate(newMutationRate);
   }
 
+  function changePopulationSize(newPopulationSize: number) {
+    if (newPopulationSize === populationSize) {
+      return;
+    }
+
+    if (newPopulationSize < populationSize) {
+      population.removeIndividuals(populationSize - newPopulationSize);
+    } else {
+      const newIndividuals = createNewRandomIndividuals(newPopulationSize - populationSize, points);
+      population.addIndividuals(newIndividuals);
+    }
+    setPopulationSize(newPopulationSize);
+  }
+
+  function setNewRandomIndividuals() {
+    const newIndividuals = createNewRandomIndividuals(populationSize, points);
+    population.setIndividuals(newIndividuals);
+  }
+
+  function createNewRandomIndividuals(size: number, points: Point[]): IndividualImpl[] {
+    return Array.from({ length: size }, () =>
+      Population.getRandomIndividual(IndividualImpl, points, mutationStrategy, crossoverStrategy)
+    );
+  }
+
   function changePointsCount(newPointsCount: number) {
     if (intervalRef) {
       clearInterval(intervalRef);
       setIntervalRef(undefined);
     }
     const newPoints = Point.getRandomPoints(newPointsCount, CANVAS_WIDTH, CANVAS_HEIGHT);
-    setPointsCount(newPointsCount);
     setPoints(newPoints);
     setPopulation(() => {
       fitnessStrategy.setPoints(newPoints);
       return Population.getRandomPopulation(
         IndividualImpl,
-        POPULATION_SIZE,
+        population.getPopulationSize(),
         newPoints,
         fitnessStrategy,
         mutationStrategy,
@@ -188,12 +213,23 @@ export default function Home() {
         Points count:
         <input
           type="number"
-          value={pointsCount}
+          value={points.length}
           onChange={(e) => changePointsCount(Number(e.target.value))}
           min={2}
           max={100}
         />
       </label>
+      <label>
+        Population size:
+        <input
+          type="number"
+          value={populationSize}
+          onChange={(e) => changePopulationSize(Number(e.target.value))}
+          min={1}
+          max={1000}
+        />
+      </label>
+      <button onClick={setNewRandomIndividuals}>New random individuals</button>
       <button onClick={toggleAuto}>{intervalRef ? 'pause' : 'run'}</button>
       <button onClick={() => setPopulation(population.evolve())}>next generation</button>
       <button onClick={reset}>reset</button>
