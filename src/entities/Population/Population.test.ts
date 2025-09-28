@@ -1,5 +1,7 @@
 import {
+  CrossoverStrategy,
   FitnessStrategy,
+  MutationStrategy,
   OrderCrossoverStrategy,
   ShortestPathFitnessStrategy,
   ShuffleMutationStrategy,
@@ -9,20 +11,29 @@ import { Population } from './Population';
 import { Point } from '../Point';
 
 describe('Population', () => {
-  const mutationStrategy = new ShuffleMutationStrategy();
-  const crossoverStrategy = new OrderCrossoverStrategy();
-  const fitnessStrategy: FitnessStrategy = new ShortestPathFitnessStrategy([
-    new Point(0, 0),
-    new Point(0, 1),
-    new Point(1, 0),
-    new Point(1, 1),
-    new Point(1, 2),
-  ]);
+  let mutationStrategy: MutationStrategy;
+  let crossoverStrategy: CrossoverStrategy;
+  let fitnessStrategy: FitnessStrategy;
 
-  const individuals = [
-    new IndividualImpl([0, 1, 2, 3, 4], mutationStrategy, crossoverStrategy),
-    new IndividualImpl([3, 0, 4, 2, 1], mutationStrategy, crossoverStrategy),
-  ];
+  beforeAll(() => {
+    mutationStrategy = new ShuffleMutationStrategy();
+    crossoverStrategy = new OrderCrossoverStrategy();
+    fitnessStrategy = new ShortestPathFitnessStrategy([
+      new Point(0, 0),
+      new Point(0, 1),
+      new Point(1, 0),
+      new Point(1, 1),
+      new Point(1, 2),
+    ]);
+  });
+
+  let individuals: IndividualImpl[];
+  beforeEach(() => {
+    individuals = [
+      new IndividualImpl([0, 1, 2, 3, 4], mutationStrategy, crossoverStrategy),
+      new IndividualImpl([3, 0, 4, 2, 1], mutationStrategy, crossoverStrategy),
+    ];
+  });
 
   it('should get the mating pool', () => {
     const population = new Population(
@@ -108,8 +119,53 @@ describe('Population', () => {
         crossoverStrategy
       );
 
-      expect(population.individuals.length).toBe(5);
-      expect(population.individuals[0].genes.length).toBe(4);
+      expect(population.getPopulationSize()).toBe(5);
+      expect(population.getIndividuals()[0].genes.length).toBe(4);
+    });
+  });
+
+  describe('addIndividuals', () => {
+    it('should add individuals', () => {
+      const population = new Population(
+        individuals,
+        fitnessStrategy,
+        mutationStrategy,
+        crossoverStrategy
+      );
+      const newIndividuals = [
+        new IndividualImpl([5, 6, 7, 8, 9], mutationStrategy, crossoverStrategy),
+      ];
+      population.addIndividuals(newIndividuals);
+      expect(population.getIndividuals().length).toBe(3);
+    });
+  });
+
+  describe('removeIndividuals', () => {
+    it('should remove individuals', () => {
+      const population = new Population(
+        individuals,
+        fitnessStrategy,
+        mutationStrategy,
+        crossoverStrategy
+      );
+      population.removeIndividuals(1);
+      expect(population.getIndividuals().length).toBe(1);
+    });
+  });
+
+  describe('setIndividuals', () => {
+    it('should set individuals', () => {
+      const population = new Population(
+        individuals,
+        fitnessStrategy,
+        mutationStrategy,
+        crossoverStrategy
+      );
+      const newIndividuals = [
+        new IndividualImpl([5, 6, 7, 8, 9], mutationStrategy, crossoverStrategy),
+      ];
+      population.setIndividuals(newIndividuals);
+      expect(population.getIndividuals().length).toBe(1);
     });
   });
 });

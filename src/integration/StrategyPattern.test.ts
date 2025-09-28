@@ -85,12 +85,12 @@ describe('Strategy Pattern Integration', () => {
         crossoverStrategy
       );
 
-      expect(population.individuals).toHaveLength(2);
+      expect(population.getIndividuals()).toHaveLength(2);
       expect(population.getBestIndividual()).toBeDefined();
 
       // Test evolution with strategies
       const newPopulation = population.evolve();
-      expect(newPopulation.individuals).toHaveLength(2);
+      expect(newPopulation.getIndividuals()).toHaveLength(2);
     });
 
     it('should work with getRandomPopulation using strategies', () => {
@@ -103,8 +103,8 @@ describe('Strategy Pattern Integration', () => {
         crossoverStrategy
       );
 
-      expect(population.individuals).toHaveLength(5);
-      expect(population.individuals[0].genes).toHaveLength(points.length);
+      expect(population.getIndividuals()).toHaveLength(5);
+      expect(population.getIndividuals()[0].genes).toHaveLength(points.length);
 
       // Test that strategies can be changed
       const newMutationStrategy = new ShuffleMutationStrategy();
@@ -114,7 +114,7 @@ describe('Strategy Pattern Integration', () => {
       population.setCrossoverStrategy(newCrossoverStrategy);
 
       const newPopulation = population.evolve();
-      expect(newPopulation.individuals).toHaveLength(5);
+      expect(newPopulation.getIndividuals()).toHaveLength(5);
     });
 
     it('should maintain backward compatibility without strategies', () => {
@@ -130,12 +130,12 @@ describe('Strategy Pattern Integration', () => {
         crossoverStrategy
       );
 
-      expect(population.individuals).toHaveLength(2);
+      expect(population.getIndividuals()).toHaveLength(2);
       expect(population.getBestIndividual()).toBeDefined();
 
       // Test evolution without strategies (fallback behavior)
       const newPopulation = population.evolve();
-      expect(newPopulation.individuals).toHaveLength(2);
+      expect(newPopulation.getIndividuals()).toHaveLength(2);
     });
   });
 });
