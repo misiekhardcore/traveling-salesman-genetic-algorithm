@@ -4530,15 +4530,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-testing-library@npm:7.8.1":
-  version: 7.8.1
-  resolution: "eslint-plugin-testing-library@npm:7.8.1"
+"eslint-plugin-testing-library@npm:7.10.0":
+  version: 7.10.0
+  resolution: "eslint-plugin-testing-library@npm:7.10.0"
   dependencies:
     "@typescript-eslint/scope-manager": "npm:^8.15.0"
     "@typescript-eslint/utils": "npm:^8.15.0"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10c0/5966c002109ec4d24ca867956065c360d0dc7783c7e235d3be58a06b442ac6c346164fdada39edaa236f7b59f3bf8099ee26521fdbbe9250d6c07a612ddbb869
+  checksum: 10c0/2dee836ff74df95ce966b1331ef4ef1dec6b79c1806c8576113ea9294fc926eb66330cda1c2a75a40a29a761c9cf8792da1efecb32c4c93170f11d9097b120af
   languageName: node
   linkType: hard
 
@@ -9023,7 +9023,7 @@ __metadata:
     eslint-config-next: "npm:15.5.4"
     eslint-config-prettier: "npm:10.1.8"
     eslint-plugin-prettier: "npm:5.5.4"
-    eslint-plugin-testing-library: "npm:7.8.1"
+    eslint-plugin-testing-library: "npm:7.10.0"
     husky: "npm:9.1.7"
     jest: "npm:30.1.3"
     jest-environment-jsdom: "npm:30.1.2"
