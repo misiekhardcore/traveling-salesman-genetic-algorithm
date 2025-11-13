@@ -2,11 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -24,13 +20,9 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
-    "types": [
-      "@eslint/eslintrc"
-    ]
+    "types": ["@eslint/eslintrc"]
   },
   "include": [
     "*.d.ts",
@@ -41,10 +33,5 @@
     "eslint.config.mjs",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "cypress.config.ts",
-    "lint-staged.config.js",
-    "./cypress/**"
-  ]
+  "exclude": ["node_modules", "cypress.config.ts", "lint-staged.config.js", "./cypress/**"]
 }
