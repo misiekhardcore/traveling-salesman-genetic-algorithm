@@ -23,9 +23,9 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "next": "15.5.9",
-    "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "next": "15.5.10",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.3.3",
@@ -42,7 +42,7 @@
     "@typescript-eslint/eslint-plugin": "8.53.1",
     "@typescript-eslint/parser": "8.53.1",
     "eslint": "9.39.2",
-    "eslint-config-next": "15.5.9",
+    "eslint-config-next": "15.5.10",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.5",
     "eslint-plugin-testing-library": "7.15.4",
