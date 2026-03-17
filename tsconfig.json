@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["@eslint/eslintrc"]
+    "types": []
   },
   "include": [
     "*.d.ts",
