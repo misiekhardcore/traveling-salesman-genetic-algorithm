@@ -1,8 +1,10 @@
 import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
+import eslintReact from '@eslint-react/eslint-plugin';
+import eslintJs from "@eslint/js";
 import testingLibrary from 'eslint-plugin-testing-library';
 import prettier from 'eslint-plugin-prettier';
-import tsParser from '@typescript-eslint/parser';
+import tsEslint from 'typescript-eslint';
 import globals from 'globals';
 
 // Extend nextVitals config with custom settings
@@ -13,10 +15,11 @@ const customConfig = nextVitals.map((config) => {
       ...config,
       languageOptions: {
         ...config.languageOptions,
-        parser: tsParser,
+        parser: tsEslint.parser,
         sourceType: 'module',
         parserOptions: {
           ...config.languageOptions.parserOptions,
+          projectServices: true,
           project: ['tsconfig.json'],
         },
         globals: {
@@ -49,18 +52,14 @@ const customConfig = nextVitals.map((config) => {
   return config;
 });
 
-export default defineConfig([
+export default defineConfig(
   ...customConfig,
   {
-    // Override react version from eslint-config-next to avoid calling the removed
-    // context.getFilename() API in eslint-plugin-react when using ESLint v10
-    settings: {
-      react: {
-        version: '19',
-      },
-    },
-  },
-  {
+    extends: [
+      eslintJs.configs.recommended,
+      tsEslint.configs.recommended,
+      eslintReact.configs['recommended-typescript'],
+    ],
     plugins: {
       'testing-library': testingLibrary,
       prettier,
@@ -82,4 +81,4 @@ export default defineConfig([
     '.swc',
     'node_modules',
   ]),
-]);
+);
