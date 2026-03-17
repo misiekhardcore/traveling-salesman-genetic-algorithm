@@ -52,6 +52,15 @@ const customConfig = nextVitals.map((config) => {
 export default defineConfig([
   ...customConfig,
   {
+    // Override react version from eslint-config-next to avoid calling the removed
+    // context.getFilename() API in eslint-plugin-react when using ESLint v10
+    settings: {
+      react: {
+        version: '19',
+      },
+    },
+  },
+  {
     plugins: {
       'testing-library': testingLibrary,
       prettier,
