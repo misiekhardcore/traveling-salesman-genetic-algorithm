@@ -878,7 +878,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:^10.0.1":
+"@eslint/js@npm:10.0.1":
   version: 10.0.1
   resolution: "@eslint/js@npm:10.0.1"
   peerDependencies:
@@ -8936,7 +8936,7 @@ __metadata:
   resolution: "traveling-salesman-genetic-algorithm@workspace:."
   dependencies:
     "@eslint-react/eslint-plugin": "npm:3.0.0"
-    "@eslint/js": "npm:^10.0.1"
+    "@eslint/js": "npm:10.0.1"
     "@tailwindcss/postcss": "npm:4.2.1"
     "@testing-library/dom": "npm:10.4.1"
     "@testing-library/jest-dom": "npm:6.9.1"
@@ -8962,7 +8962,7 @@ __metadata:
     sass: "npm:1.98.0"
     ts-node: "npm:10.9.2"
     typescript: "npm:5.9.3"
-    typescript-eslint: "npm:^8.57.1"
+    typescript-eslint: "npm:8.57.1"
   languageName: unknown
   linkType: soft
 
@@ -9167,7 +9167,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript-eslint@npm:^8.46.0, typescript-eslint@npm:^8.57.1":
+"typescript-eslint@npm:8.57.1, typescript-eslint@npm:^8.46.0":
   version: 8.57.1
   resolution: "typescript-eslint@npm:8.57.1"
   dependencies:
