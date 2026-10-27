@@ -8,3 +8,4 @@ node_modules
 .editorconfig
 .gitattributes
 pnpm-lock.yaml
+package.json
