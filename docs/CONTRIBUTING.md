@@ -102,28 +102,20 @@ export class YourCrossoverStrategy extends CrossoverStrategy {
 import { FitnessStrategy } from '../FitnessStrategy';
 import { Individual, Point } from '@/entities';
 
-export class YourFitnessStrategy implements FitnessStrategy {
-  name = 'Your Fitness';
-  points: Point[] = [];
+export class YourFitnessStrategy extends FitnessStrategy {
+  static readonly label = 'Your Fitness';
+  readonly label = YourFitnessStrategy.label;
 
-  constructor(points: Point[]) {
-    this.points = points;
-  }
-
-  setPoints(points: Point[]): void {
-    this.points = points;
-  }
-
-  getIndividualFitness(individual: Individual): number {
+  evaluate(individual: Individual): number {
     // Your fitness calculation logic
     return 0; // Example
   }
-
-  getFitnessSum(individuals: Individual[]): number {
-    return individuals.reduce((sum, individual) => sum + this.getIndividualFitness(individual), 0);
-  }
 }
 ```
+
+The base class supplies `points`, `setPoints`, a memoized `getIndividualFitness`
+and `getFitnessSum`, so a custom strategy only implements the formula. Override
+`getIndividualFitness` instead when a strategy must opt out of the memo.
 
 ## Testing Requirements
 
@@ -138,7 +130,7 @@ All strategies have to include comprehensive tests. See the test files for examp
 
 ## Implementation Notes
 
-- All strategies extend base classes (`MutationStrategy`, `CrossoverStrategy`) or implement interfaces (`FitnessStrategy`)
+- All strategies extend base classes (`MutationStrategy`, `CrossoverStrategy`, `FitnessStrategy`)
 - Strategies operate on gene arrays (number[]) rather than Individual objects for better separation of concerns
 - All mutation and crossover strategies should return new arrays rather than modifying input arrays
 - The Population class manages strategy injection to Individual instances during reproduction

@@ -161,4 +161,31 @@ describe('Strategy Pattern Integration', () => {
       expect(newPopulation.getIndividuals()).toHaveLength(2);
     });
   });
+
+  describe('evolution invariants', () => {
+    it('should keep every individual a valid route across generations', () => {
+      const population = Population.getRandomPopulation(
+        IndividualImpl,
+        40,
+        points,
+        fitnessStrategy,
+        new ShuffleMutationStrategy(0.5),
+        crossoverStrategy
+      );
+      const expectedGenes = [...points.keys()];
+      let current = population;
+
+      for (let generation = 0; generation < 40; generation += 1) {
+        current = current.evolve();
+
+        expect(current.getPopulationSize()).toBe(40);
+
+        for (const individual of current.getIndividuals()) {
+          // A route is a permutation of every city exactly once: crossover or
+          // mutation that dropped or duplicated a city would show up here.
+          expect([...individual.genes].sort((a, b) => a - b)).toEqual(expectedGenes);
+        }
+      }
+    });
+  });
 });

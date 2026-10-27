@@ -27,6 +27,7 @@
     "*.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "bench/**/*.mjs",
     ".next/types/**/*.ts",
     "src/__mocks__/*.js",
     "eslint.config.mjs",
