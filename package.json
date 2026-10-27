@@ -1,23 +1,45 @@
 {
   "name": "traveling-salesman-genetic-algorithm",
-  "version": "0.0.0",
-  "private": true,
-  "description": "traveling Salesman Genetic Algorithm",
+  "version": "1.0.0",
+  "description": "Interactive visualization of the Traveling Salesman Problem solved using genetic algorithms with modular strategy pattern",
+  "keywords": [
+    "traveling-salesman",
+    "genetic-algorithm",
+    "tsp",
+    "visualization",
+    "nextjs",
+    "react",
+    "typescript"
+  ],
+  "homepage": "https://github.com/misiekhardcore/traveling-salesman-genetic-algorithm",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/misiekhardcore/traveling-salesman-genetic-algorithm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/misiekhardcore/traveling-salesman-genetic-algorithm/issues"
+  },
+  "license": "MIT",
   "main": "index.js",
   "author": {
     "email": "konopskiwebdev@gmail.com",
     "name": "misiekhardcore"
   },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=12.0.0"
+  },
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "yarn lint && next build",
+    "build": "pnpm lint && next build",
     "start": "next start",
     "eslint": "eslint .",
     "eslint:fix": "eslint . --fix",
     "prettier": "prettier . --check",
     "prettier:fix": "prettier . --write",
-    "lint": "yarn eslint && yarn prettier",
-    "lint:fix": "yarn eslint:fix && yarn prettier:fix",
+    "lint": "pnpm eslint && pnpm prettier",
+    "lint:fix": "pnpm eslint:fix && pnpm prettier:fix",
     "prepare": "husky",
     "test": "jest",
     "test:watch": "jest --watch"
@@ -44,6 +66,7 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.5",
     "eslint-plugin-testing-library": "7.16.0",
+    "globals": "17.13.0",
     "husky": "9.1.7",
     "jest": "30.3.0",
     "jest-environment-jsdom": "30.3.0",
@@ -57,5 +80,6 @@
   "resolutions": {
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3"
-  }
+  },
+  "packageManager": "pnpm@12.16.1+sha512.091d1dee7927575661b25dab3c2ae31cafc1c54d6b71ed6a6600cf0c1cb10434a447eae14015f1b23e2e6bedeed79df94a932e2164d2832280dce3fb32f656d1"
 }

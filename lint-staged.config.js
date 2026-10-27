@@ -1,13 +1,11 @@
-module.exports = {
-  // Type check TypeScript files
-  '**/*.(ts|tsx)': () => 'yarn tsc --noEmit',
+export default {
+  // Type check the whole project: tsc needs the full program, not a subset of files,
+  // so this returns a command that runs without the staged file list appended.
+  '**/*.(ts|tsx)': () => 'tsc --noEmit',
 
-  // Lint then format TypeScript and JavaScript files
-  '**/*.(ts|tsx|js)': [`yarn eslint:fix`, `yarn prettier:fix`],
+  // Lint and format scripts
+  '**/*.(ts|tsx|js|jsx|mjs)': ['eslint --fix --no-warn-ignored', 'prettier --write'],
 
-  // Format style files
-  '**/*.(scss)': [`yarn prettier:fix`],
-
-  // Format MarkDown and JSON
-  '**/*.(md|json)': [`yarn prettier:fix`],
+  // Format styles, markup and config files
+  '**/*.(scss|css|md|json|yml|yaml)': ['prettier --write'],
 };

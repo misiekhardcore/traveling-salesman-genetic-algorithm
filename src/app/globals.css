@@ -35,6 +35,25 @@
   --callout-border-rgb: 172, 175, 176;
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
+
+  /* Application palette. Full color/effect values so components never have to
+     build colors themselves, and so the canvas can reuse the very same tokens. */
+  --page-text: #0f172a;
+  --text-muted: #64748b;
+  --panel-bg: #ffffff;
+  --panel-bg-muted: #f6f8fa;
+  --panel-border: #e2e8f0;
+  --panel-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.06);
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-contrast: #ffffff;
+  --focus-ring: rgba(37, 99, 235, 0.35);
+
+  /* Canvas palette, read at runtime by the visualization. Ink must contrast with
+     the surface in every scheme: dark ink on the light surface, light ink on dark. */
+  --canvas-surface: #ffffff;
+  --canvas-ink: #0f172a;
+  --canvas-worst: #d92d20;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -67,6 +86,21 @@
     --callout-border-rgb: 108, 108, 108;
     --card-rgb: 100, 100, 100;
     --card-border-rgb: 200, 200, 200;
+
+    --page-text: #e6eaf0;
+    --text-muted: #94a3b8;
+    --panel-bg: #12161c;
+    --panel-bg-muted: #171c24;
+    --panel-border: #262e3a;
+    --panel-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.45);
+    --accent: #60a5fa;
+    --accent-hover: #93c5fd;
+    --accent-contrast: #0b1117;
+    --focus-ring: rgba(96, 165, 250, 0.4);
+
+    --canvas-surface: #0f1216;
+    --canvas-ink: #f4f6f8;
+    --canvas-worst: #f97066;
   }
 }
 

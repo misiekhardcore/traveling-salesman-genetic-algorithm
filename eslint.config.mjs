@@ -97,8 +97,9 @@ export default defineConfig(
     '**/prettier.config.js',
     '**/next-env.d.ts',
     '.next',
-    '.yarn',
+    'pnpm-lock.yaml',
     '.swc',
+    'coverage',
     'node_modules',
   ])
 );
