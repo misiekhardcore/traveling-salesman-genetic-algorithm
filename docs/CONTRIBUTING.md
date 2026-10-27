@@ -1,6 +1,6 @@
 # Contributing Guide
 
-Thank you for your interest in contributing to the Traveling Salesman Genetic Algorithm project! This guide provides practical instructions for contributors.
+Thank you for your interest in contributing to the Traveling Salesman Genetic Algorithm project! We welcome contributions! This guide provides practical instructions for contributors. See our [Code of Conduct](../CODE_OF_CONDUCT.md) and [Security Policy](../SECURITY.md) for community guidelines.
 
 ## Development Setup
 
@@ -216,7 +216,7 @@ Brief description of changes
 
 - **Issues**: Check existing GitHub issues or create a new one
 - **Discussions**: Use GitHub Discussions for questions
-- **Documentation**: Refer to the docs/ directory
+- **Documentation**: Refer to the [docs/](.) directory and root-level documentation (README.md, CHANGELOG.md, CODE_OF_CONDUCT.md, SECURITY.md)
 - **Examples**: Check src/examples/ for usage patterns
 
 ## Areas for Contribution
@@ -241,4 +241,4 @@ Brief description of changes
 
 ## License
 
-By contributing to this project, you agree that your contributions will be licensed under the MIT License.
+By contributing to this project, you agree that your contributions will be licensed under the [MIT License](../LICENSE).
