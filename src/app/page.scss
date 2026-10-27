@@ -1,11 +1,230 @@
-main {
-  padding: 1rem;
-  align-items: center;
+$layout-breakpoint: 960px;
+
+.app {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  max-width: 1200px;
+  gap: 1.5rem;
   width: 100%;
-  margin: auto;
-  position: relative;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.app__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.app__title {
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.app__tagline {
+  max-width: 62ch;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.app__layout {
+  display: grid;
+  gap: 1.25rem;
+  align-items: start;
+
+  @media (min-width: $layout-breakpoint) {
+    grid-template-columns: 19rem minmax(0, 1fr);
+  }
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--panel-shadow);
+}
+
+.panel--controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+  padding: 1.25rem;
+}
+
+.panel--stage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  min-width: 0;
+  padding: 1rem;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.control-group__title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+}
+
+.field__label {
+  font-weight: 500;
+  color: var(--page-text);
+}
+
+.field__control {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--page-text);
+  background: var(--panel-bg-muted);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+}
+
+.button-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.button {
+  padding: 0.55rem 0.7rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--page-text);
+  cursor: pointer;
+  background: var(--panel-bg-muted);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
+
+  &:hover {
+    border-color: var(--accent);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--focus-ring);
+  }
+}
+
+.button--primary {
+  color: var(--accent-contrast);
+  background: var(--accent);
+  border-color: var(--accent);
+
+  &:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+  }
+}
+
+.stage {
+  overflow: hidden;
+  background: var(--canvas-surface);
+  border: 1px solid var(--panel-border);
+  border-radius: calc(var(--border-radius) - 4px);
+}
+
+.stage__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.stage__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  padding: 0 0.15rem;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  list-style: none;
+}
+
+.legend__item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.legend__swatch {
+  width: 1.4rem;
+  height: 0.2rem;
+  border-radius: 999px;
+}
+
+.legend__swatch--best {
+  background: var(--canvas-ink);
+}
+
+.legend__swatch--worst {
+  background: var(--canvas-worst);
+}
+
+.legend__swatch--point {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: var(--canvas-ink);
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  font-size: 0.8rem;
+}
+
+.stats__item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.stats__label {
+  color: var(--text-muted);
+}
+
+.stats__value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--page-text);
 }
