@@ -17,21 +17,21 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Set up node
-        uses: actions/setup-node@main
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
           node-version: 24
           cache: yarn
-          cache-dependency-path: ${{ github.workspace}}/yarn.lock
+          cache-dependency-path: ${{ github.workspace }}/yarn.lock
 
       - name: Install node dependencies
-        working-directory: ${{ github.workspace}}
-        run: yarn install
+        working-directory: ${{ github.workspace }}
+        run: yarn install --immutable
 
       - name: Run linting
-        working-directory: ${{ github.workspace}}
+        working-directory: ${{ github.workspace }}
         run: yarn lint
 
   unit-tests:
@@ -39,41 +39,48 @@ jobs:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Set up node
-        uses: actions/setup-node@main
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
           node-version: 24
           cache: yarn
-          cache-dependency-path: ${{ github.workspace}}/yarn.lock
+          cache-dependency-path: ${{ github.workspace }}/yarn.lock
 
       - name: Install node dependencies
-        working-directory: ${{ github.workspace}}
-        run: yarn install
+        working-directory: ${{ github.workspace }}
+        run: yarn install --immutable
 
       - name: Run tests
-        working-directory: ${{ github.workspace}}
-        run: yarn test
+        working-directory: ${{ github.workspace }}
+        run: yarn test --ci --coverage
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: coverage-report
+          path: coverage/
 
   build:
     name: Build
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Set up node
-        uses: actions/setup-node@main
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
           node-version: 24
           cache: yarn
-          cache-dependency-path: ${{ github.workspace}}/yarn.lock
+          cache-dependency-path: ${{ github.workspace }}/yarn.lock
 
       - name: Install node dependencies
-        working-directory: ${{ github.workspace}}
-        run: yarn install
+        working-directory: ${{ github.workspace }}
+        run: yarn install --immutable
 
       - name: Build
-        working-directory: ${{ github.workspace}}
+        working-directory: ${{ github.workspace }}
         run: yarn build

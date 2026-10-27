@@ -99,6 +99,7 @@ export default defineConfig(
     '.next',
     '.yarn',
     '.swc',
+    'coverage',
     'node_modules',
   ])
 );

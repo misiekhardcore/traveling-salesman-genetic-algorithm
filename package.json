@@ -1,13 +1,35 @@
 {
   "name": "traveling-salesman-genetic-algorithm",
-  "version": "0.0.0",
-  "private": true,
-  "description": "traveling Salesman Genetic Algorithm",
+  "version": "1.0.0",
+  "description": "Interactive visualization of the Traveling Salesman Problem solved using genetic algorithms with modular strategy pattern",
+  "keywords": [
+    "traveling-salesman",
+    "genetic-algorithm",
+    "tsp",
+    "visualization",
+    "nextjs",
+    "react",
+    "typescript"
+  ],
+  "homepage": "https://github.com/misiekhardcore/traveling-salesman-genetic-algorithm",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/misiekhardcore/traveling-salesman-genetic-algorithm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/misiekhardcore/traveling-salesman-genetic-algorithm/issues"
+  },
+  "license": "MIT",
   "main": "index.js",
   "author": {
     "email": "konopskiwebdev@gmail.com",
     "name": "misiekhardcore"
   },
+  "engines": {
+    "node": ">=18.0.0",
+    "yarn": ">=4.0.0"
+  },
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "yarn lint && next build",
