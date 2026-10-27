@@ -1,7 +1,7 @@
 {
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-  extends: ['github>misiekhardcore/configs//renovate/default.json5'],
-  schedule: ['every weekday'],
-  prConcurrentLimit: 60,
-  baseBranchPatterns: ['main'],
+  extends: [
+    'github>misiekhardcore/renovate-config//default.json5',
+    'github>misiekhardcore/renovate-config//presets/nextjs.json5',
+  ],
 }
