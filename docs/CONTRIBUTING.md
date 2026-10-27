@@ -7,7 +7,7 @@ Thank you for your interest in contributing to the Traveling Salesman Genetic Al
 ### Prerequisites
 
 - Node.js 18 or higher
-- Yarn v4 package manager
+- PNPM v12 package manager
 - Git
 
 ### Setup
@@ -18,23 +18,23 @@ git clone https://github.com/YOUR_USERNAME/traveling-salesman-genetic-algorithm.
 cd traveling-salesman-genetic-algorithm
 
 # Install dependencies
-yarn install
+pnpm install
 
 # Start development server
-yarn dev
+pnpm dev
 ```
 
 ### Verify Setup
 
 ```bash
 # Run all tests
-yarn test
+pnpm test
 
 # Check code style
-yarn lint
+pnpm lint
 
 # Build the project
-yarn build
+pnpm build
 ```
 
 ## Development Workflow
@@ -42,13 +42,13 @@ yarn build
 ### Available Scripts
 
 ```bash
-yarn dev          # Start development server with Turbopack
-yarn build        # Build for production (includes linting)
-yarn start        # Start production server
-yarn test         # Run all tests
-yarn test:watch   # Run tests in watch mode
-yarn lint         # Check code style (ESLint + Prettier)
-yarn lint:fix     # Fix code style issues automatically
+pnpm dev          # Start development server with Turbopack
+pnpm build        # Build for production (includes linting)
+pnpm start        # Start production server
+pnpm test         # Run all tests
+pnpm test:watch   # Run tests in watch mode
+pnpm lint         # Check code style (ESLint + Prettier)
+pnpm lint:fix     # Fix code style issues automatically
 ```
 
 ### Code Style Requirements
@@ -148,9 +148,9 @@ All strategies have to include comprehensive tests. See the test files for examp
 ### Running Tests
 
 ```bash
-yarn test              # Run all tests once
-yarn test:watch        # Run tests in watch mode
-yarn test --coverage   # Run with coverage report
+pnpm test              # Run all tests once
+pnpm test:watch        # Run tests in watch mode
+pnpm test --coverage   # Run with coverage report
 ```
 
 ## Pull Request Process
@@ -160,7 +160,7 @@ yarn test --coverage   # Run with coverage report
 1. **Create feature branch**: `git checkout -b feature/your-feature-name`
 2. **Make changes**: Follow code style guidelines
 3. **Add tests**: Include comprehensive test coverage
-4. **Run checks**: `yarn test && yarn lint && yarn build`
+4. **Run checks**: `pnpm test && pnpm lint && pnpm build`
 5. **Commit**: Use conventional commit format
 
 ### Commit Message Format

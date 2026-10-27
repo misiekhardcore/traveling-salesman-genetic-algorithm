@@ -56,7 +56,7 @@ body:
       placeholder: |
         - OS: [e.g. Windows 10, macOS 12.0, Ubuntu 20.04]
         - Node.js version: [e.g. 18.17.0]
-        - Yarn version: [e.g. 4.0.0]
+        - PNPM version: [e.g. 4.0.0]
         - Browser: [e.g. Chrome 91, Firefox 89]
     validations:
       required: true

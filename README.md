@@ -3,7 +3,7 @@
 [![CI](https://github.com/misiekhardcore/traveling-salesman-genetic-algorithm/workflows/CI/badge.svg)](https://github.com/misiekhardcore/traveling-salesman-genetic-algorithm/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)](https://nodejs.org/)
-[![Yarn Version](https://img.shields.io/badge/yarn-%3E%3D4-blue.svg)](https://yarnpkg.com/)
+[![pnpm Version](https://img.shields.io/badge/pnpm-%3E%3D4-blue.svg)](https://pnpmpkg.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)]
 [![Code of Conduct](https://img.shields.io/badge/Code%20of%20Conduct-Contributor%20Covenant-blue.svg)](CODE_OF_CONDUCT.md)
 [![Security](https://img.shields.io/badge/Security-Policy-blue.svg)](SECURITY.md)
@@ -48,7 +48,7 @@ We are committed to creating an inclusive and respectful community. All contribu
 ### Prerequisites
 
 - Node.js 18 or higher
-- Yarn 4+ package manager
+- pnpm 4+ package manager
 - Git
 
 ### Steps
@@ -63,13 +63,13 @@ We are committed to creating an inclusive and respectful community. All contribu
 2. **Install dependencies**
 
    ```bash
-   yarn install
+   pnpm install
    ```
 
 3. **Start the development server**
 
    ```bash
-   yarn dev
+   pnpm dev
    ```
 
 4. **Open the application**
@@ -79,10 +79,10 @@ We are committed to creating an inclusive and respectful community. All contribu
 
 ```bash
 # Build for production
-yarn build
+pnpm build
 
 # Start production server
-yarn start
+pnpm start
 ```
 
 ## Usage
@@ -257,13 +257,13 @@ See [Strategy Pattern Guide](docs/STRATEGY_PATTERN.md) for implementing custom s
 ### Available Scripts
 
 ```bash
-yarn dev          # Start development server with Turbopack
-yarn build        # Build for production (includes linting)
-yarn start        # Start production server
-yarn test         # Run all tests
-yarn test:watch   # Run tests in watch mode
-yarn lint         # Check code style (ESLint + Prettier)
-yarn lint:fix     # Fix code style issues automatically
+pnpm dev          # Start development server with Turbopack
+pnpm build        # Build for production (includes linting)
+pnpm start        # Start production server
+pnpm test         # Run all tests
+pnpm test:watch   # Run tests in watch mode
+pnpm lint         # Check code style (ESLint + Prettier)
+pnpm lint:fix     # Fix code style issues automatically
 ```
 
 ### Code Style
@@ -285,13 +285,13 @@ yarn lint:fix     # Fix code style issues automatically
 
 ```bash
 # Run all tests
-yarn test
+pnpm test
 
 # Run tests in watch mode
-yarn test:watch
+pnpm test:watch
 
 # Run with coverage
-yarn test --coverage
+pnpm test --coverage
 ```
 
 ### Test Coverage Requirements
@@ -316,7 +316,7 @@ We welcome contributions! Please see our [Contributing Guide](docs/CONTRIBUTING.
 - [ ] Fork the repository
 - [ ] Create a feature branch
 - [ ] Make changes with tests
-- [ ] Run `yarn test && yarn lint && yarn build`
+- [ ] Run `pnpm test && pnpm lint && pnpm build`
 - [ ] Submit a pull request
 
 ### Issue Templates

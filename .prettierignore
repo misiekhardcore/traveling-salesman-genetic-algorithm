@@ -1,6 +1,5 @@
 node_modules
 .next
-.yarn
 .swc
 .git
 .gitignore
@@ -8,3 +7,4 @@ node_modules
 .vscode
 .editorconfig
 .gitattributes
+pnpm-lock.yaml
