@@ -34,6 +34,7 @@
     "dev": "next dev --turbopack",
     "build": "pnpm lint && next build",
     "start": "next start",
+    "bench": "node bench/benchmark.mjs",
     "eslint": "eslint .",
     "eslint:fix": "eslint . --fix",
     "prettier": "prettier . --check",

@@ -23,6 +23,12 @@ const CANVAS_WIDTH = 1000;
 const CANVAS_HEIGHT = 700;
 const MUTATION_RATE = 0.01;
 const POINT_RADIUS = 8;
+const MIN_MUTATION_RATE = 0;
+const MAX_MUTATION_RATE = 1;
+const MIN_POINTS_COUNT = 2;
+const MAX_POINTS_COUNT = 100;
+const MIN_POPULATION_SIZE = 1;
+const MAX_POPULATION_SIZE = 1000;
 const BEST_ROUTE_WIDTH = 2.5;
 const WORST_ROUTE_WIDTH = 1.25;
 const EVOLUTION_INTERVAL_MS = 100;
@@ -74,6 +80,20 @@ function subscribeToDarkScheme(onStoreChange: () => void) {
   colorScheme.addEventListener('change', onStoreChange);
 
   return () => colorScheme.removeEventListener('change', onStoreChange);
+}
+
+/**
+ * The number inputs carry min/max attributes, but typing is not constrained by
+ * them, so out-of-range and half-typed values do reach the handlers. Clamping
+ * here keeps a zero-sized population (which has no best route to draw) and a NaN
+ * mutation rate (which would silently disable mutation) out of the algorithm.
+ */
+function clampNumber(value: number, min: number, max: number, fallback: number): number {
+  if (!Number.isFinite(value)) {
+    return fallback;
+  }
+
+  return Math.min(max, Math.max(min, value));
 }
 
 /**
@@ -129,6 +149,11 @@ export default function Home() {
     }
 
     const palette = readCanvasPalette();
+
+    if (population.getPopulationSize() === 0) {
+      return;
+    }
+
     const bestPath = population.getBestIndividual().genes;
     const worstPath = population.getworstIndividual().genes;
 
@@ -209,24 +234,31 @@ export default function Home() {
   }
 
   function changeMutationRate(newMutationRate: number) {
-    setMutationRate(newMutationRate);
-    population.setMutationRate(newMutationRate);
+    const rate = clampNumber(newMutationRate, MIN_MUTATION_RATE, MAX_MUTATION_RATE, mutationRate);
+
+    setMutationRate(rate);
+    population.setMutationRate(rate);
   }
 
   function changePopulationSize(newPopulationSize: number) {
-    if (newPopulationSize === populationSize) {
+    const size = clampNumber(
+      newPopulationSize,
+      MIN_POPULATION_SIZE,
+      MAX_POPULATION_SIZE,
+      populationSize
+    );
+
+    if (size === populationSize) {
       return;
     }
 
-    if (newPopulationSize < populationSize) {
-      population.removeIndividuals(populationSize - newPopulationSize);
+    if (size < populationSize) {
+      population.removeIndividuals(populationSize - size);
     } else {
-      population.addIndividuals(
-        createNewRandomIndividuals(newPopulationSize - populationSize, points)
-      );
+      population.addIndividuals(createNewRandomIndividuals(size - populationSize, points));
     }
 
-    setPopulationSize(newPopulationSize);
+    setPopulationSize(size);
     // Wrap the resized individuals in a new instance so the canvas repaints.
     setPopulation(
       new Population(
@@ -257,8 +289,19 @@ export default function Home() {
   }
 
   function changePointsCount(newPointsCount: number) {
+    const pointsCount = clampNumber(
+      newPointsCount,
+      MIN_POINTS_COUNT,
+      MAX_POINTS_COUNT,
+      points.length
+    );
+
+    if (pointsCount === points.length) {
+      return;
+    }
+
     stopAuto();
-    const newPoints = Point.getRandomPoints(newPointsCount, CANVAS_WIDTH, CANVAS_HEIGHT);
+    const newPoints = Point.getRandomPoints(pointsCount, CANVAS_WIDTH, CANVAS_HEIGHT);
     fitnessStrategy.setPoints(newPoints);
     setPoints(newPoints);
     setGeneration(0);

@@ -117,19 +117,19 @@ The genetic algorithm implements a classic generational approach:
 
 ### Core Parameters
 
-| Parameter       | Default               | Description                                           |
-| --------------- | --------------------- | ----------------------------------------------------- |
-| Population Size | 200                   | Number of individuals per generation                  |
-| Mutation Rate   | 0.01                  | Probability of mutation per gene                      |
-| Selection       | Fitness-proportionate | Roulette wheel selection                              |
-| Elitism         | Implicit              | Best individuals have higher reproduction probability |
+| Parameter       | Default               | Description                                                                           |
+| --------------- | --------------------- | ------------------------------------------------------------------------------------- |
+| Population Size | 200                   | Number of individuals per generation                                                  |
+| Mutation Rate   | 0.01                  | Probability of mutation per gene                                                      |
+| Selection       | Fitness-proportionate | Roulette wheel: exactly `populationSize` parents drawn from cumulative fitness shares |
+| Elitism         | Explicit              | The fittest individual is carried over unchanged                                      |
 
 ### Genetic Operators
 
-1. **Selection**: Fitness-proportionate (roulette wheel) selection creates a mating pool
+1. **Selection**: Fitness-proportionate (roulette wheel) selection draws exactly `populationSize` parents from the cumulative fitness shares, so every individual can be selected
 2. **Crossover**: Combines two parent paths to produce offspring
 3. **Mutation**: Randomly alters genes to maintain diversity
-4. **Replacement**: Entire population replaced each generation
+4. **Replacement**: The next generation is built from the offspring, with the fittest individual of the current one carried over unchanged
 
 ### Fitness Functions
 
@@ -262,6 +262,7 @@ pnpm build        # Build for production (includes linting)
 pnpm start        # Start production server
 pnpm test         # Run all tests
 pnpm test:watch   # Run tests in watch mode
+pnpm bench        # Benchmark one generation and one repaint at several sizes
 pnpm lint         # Check code style (ESLint + Prettier)
 pnpm lint:fix     # Fix code style issues automatically
 ```
@@ -299,7 +300,7 @@ pnpm test --coverage
 - Unit tests for all strategies
 - Integration tests for strategy interactions
 - Edge case coverage (empty arrays, single elements, boundary values)
-- Minimum 80% coverage threshold
+- Aim for at least 80% coverage: CI runs the suite with `--coverage` and uploads the report
 
 ## Contributing
 
@@ -333,7 +334,7 @@ We welcome contributions! Please see our [Contributing Guide](docs/CONTRIBUTING.
 - [ ] Web Workers for background evolution
 - [ ] More crossover strategies (PMX, CX, ERX)
 - [ ] More mutation strategies (Inversion, Scramble, Displacement)
-- [ ] Benchmarking and performance profiling
+- [x] Benchmarking and performance profiling
 - [ ] Export/import population state
 - [ ] Multi-objective optimization support
 - [ ] 3D visualization option
