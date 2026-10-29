@@ -31,6 +31,7 @@
     ".next/types/**/*.ts",
     "src/__mocks__/*.js",
     "eslint.config.mjs",
+    "postcss.config.mjs",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules", "cypress.config.ts", "lint-staged.config.js", "./cypress/**"]

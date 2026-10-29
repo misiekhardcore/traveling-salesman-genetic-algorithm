@@ -101,15 +101,21 @@ pnpm start
 ### Evolution Controls
 
 - **Run / Pause**: Start or stop automatic evolution (10 generations/second)
-- **Next Generation**: Manually step through one generation
-- **New Random Individuals**: Replace population with new random paths
+- **Next generation**: Manually step through one generation
+- **New individuals**: Replace population with new random paths
 - **Reset**: Generate new random cities and restart with default settings
+
+### Theming
+
+The header carries a light / system / dark switch (`next-themes`), stored per browser and
+defaulting to the operating system setting. The canvas reads its colors from the design system
+tokens, so it repaints with the rest of the page.
 
 ### Visualization
 
-- **White dots**: Cities to visit
-- **White line**: Current best path (shortest distance)
-- **Red line**: Current worst path in the population
+- **Dots**: Cities to visit
+- **Foreground line**: Current best path (shortest distance)
+- **Destructive line**: Current worst path in the population
 
 ## Algorithm Details
 
@@ -164,10 +170,21 @@ The genetic algorithm implements a classic generational approach:
 ```
 src/
 ├── app/                    # Next.js App Router pages
-│   ├── page.tsx           # Main visualization component
-│   ├── page.scss          # Styles
-│   ├── layout.tsx         # Root layout
-│   └── globals.css        # Global styles
+│   ├── page.tsx           # Page composition (header, controls, stage)
+│   ├── layout.tsx         # Root layout, fonts, theme & tooltip providers
+│   ├── globals.css        # Stylesheet entry (Tailwind + @konopskidev/ui)
+│   ├── constants.ts       # Algorithm defaults and input bounds
+│   └── strategies.ts      # Selectable strategy registry
+├── components/            # Presentational UI components
+│   ├── AppHeader/         # Title, tagline and the theme switch
+│   ├── ControlsPanel/     # Strategies, parameters and run controls
+│   ├── VisualizationStage/# Canvas, legend and stats
+│   ├── Section/           # Titled card used by the panels
+│   ├── StrategySelect/    # Labelled select over the strategy registry
+│   ├── NumberField/       # Labelled, clamped number input
+│   ├── ThemeProvider/     # next-themes provider
+│   └── ThemeToggle/       # Light / system / dark switch
+├── hooks/                 # useGeneticAlgorithm (all algorithm state)
 ├── entities/              # Core domain entities
 │   ├── Individual/        # Individual (chromosome) implementation
 │   ├── Point/             # 2D point/city representation
@@ -278,6 +295,9 @@ pnpm lint:fix     # Fix code style issues automatically
 
 - Entities in `src/entities/`
 - Strategies in `src/services/`
+- Presentational components in `src/components/`, one folder per component with an `index.tsx`
+  barrel
+- Shared state lives in hooks under `src/hooks/`; components receive props
 - Tests co-located with source files (`.test.ts`/`.test.tsx`)
 - Integration tests in `src/integration/`
 - Examples in `src/examples/`
@@ -354,4 +374,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Inspired by classic genetic algorithm implementations for TSP
 - Built with [Next.js](https://nextjs.org/), [React](https://react.dev/), and [TypeScript](https://www.typescriptlang.org/)
+- UI components from [`@konopskidev/ui`](https://github.com/misiekhardcore/konopskidevui) on Tailwind CSS v4
 - Canvas rendering for real-time visualization
