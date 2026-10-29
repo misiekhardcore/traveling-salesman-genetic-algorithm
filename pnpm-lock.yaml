@@ -168,7 +168,7 @@ importers:
     dependencies:
       next:
         specifier: 16.1.7
-        version: 16.1.7(@babel/core@7.29.7(supports-color@8.1.1))(react-dom@19.2.9(react@19.2.9))(react@19.2.9)(sass@1.98.0)
+        version: 16.1.7(@babel/core@7.29.7(supports-color@8.1.1))(react-dom@19.2.9(react@19.2.9))(react@19.2.9)(sass@1.106.1)
       react:
         specifier: 19.2.9
         version: 19.2.9
@@ -243,8 +243,8 @@ importers:
         specifier: 3.9.10
         version: 3.9.10
       sass:
-        specifier: 1.98.0
-        version: 1.98.0
+        specifier: 1.106.1
+        version: 1.106.1
       ts-node:
         specifier: 10.9.2
         version: 10.9.2(@types/node@24.19.2)(typescript@5.9.3)
@@ -1719,9 +1719,9 @@ packages:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}
     engines: {node: '>=10'}
 
-  chokidar@4.0.3:
-    resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
-    engines: {node: '>= 14.16.0'}
+  chokidar@5.0.0:
+    resolution: {integrity: sha512-TQMmc3w+5AxjpL8iIiwebF73dRDF4fBIieAqGn9RGCWaEVwQ6Fb2cGe31Yns0RRIzii5goJ1Y7xbMwo1TxMplw==}
+    engines: {node: '>= 20.19.0'}
 
   ci-info@4.4.0:
     resolution: {integrity: sha512-77PSwercCZU2Fc4sX94eF8k8Pxte6JAwL4/ICZLFjJLqegs7kCuAsqqj/70NQF6TvDpgFjkubQB2FW2ZZddvQg==}
@@ -3240,9 +3240,9 @@ packages:
     resolution: {integrity: sha512-RuLdAokXv3sRmZa2/N8QH0KmTBIgDKC+buRUikGqow31+mGSGidLCX2o4XFq8OV+xBFWfhM9DVgTq1PPHADH4w==}
     engines: {node: '>=0.10.0'}
 
-  readdirp@4.1.2:
-    resolution: {integrity: sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==}
-    engines: {node: '>= 14.18.0'}
+  readdirp@5.1.1:
+    resolution: {integrity: sha512-Kko+Y5XQ6fM+Ce3dq3m9YGxnacYZYl9cA1wZjaF3Vbry2L3i1qVg8+CAgNPsXRArPMUMCaOR7oa9Nqntc43JKA==}
+    engines: {node: '>= 20.19.0'}
 
   redent@3.0.0:
     resolution: {integrity: sha512-6tDA8g98We0zd0GvVeMT9arEOnTw9qM03L9cJXaCjrip1OO764RDBLBfrB4cwzNGDj5OA5ioymC9GkizgWJDUg==}
@@ -3308,9 +3308,9 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  sass@1.98.0:
-    resolution: {integrity: sha512-+4N/u9dZ4PrgzGgPlKnaaRQx64RO0JBKs9sDhQ2pLgN6JQZ25uPQZKQYaBJU48Kd5BxgXoJ4e09Dq7nMcOUW3A==}
-    engines: {node: '>=14.0.0'}
+  sass@1.106.1:
+    resolution: {integrity: sha512-kD+Gi66vycZcbJt+42NC4z4PXNMcCajVrJPhqoKKXy5cOBMmJQt052CxIBcRjwYXeImHYOpu/ydWWGZQIenl7A==}
+    engines: {node: '>=20.19.0'}
     hasBin: true
 
   saxes@6.0.0:
@@ -5337,9 +5337,9 @@ snapshots:
 
   char-regex@1.0.2: {}
 
-  chokidar@4.0.3:
+  chokidar@5.0.0:
     dependencies:
-      readdirp: 4.1.2
+      readdirp: 5.1.1
 
   ci-info@4.4.0: {}
 
@@ -6990,7 +6990,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  next@16.1.7(@babel/core@7.29.7(supports-color@8.1.1))(react-dom@19.2.9(react@19.2.9))(react@19.2.9)(sass@1.98.0):
+  next@16.1.7(@babel/core@7.29.7(supports-color@8.1.1))(react-dom@19.2.9(react@19.2.9))(react@19.2.9)(sass@1.106.1):
     dependencies:
       '@next/env': 16.1.7
       '@swc/helpers': 0.5.15
@@ -7009,7 +7009,7 @@ snapshots:
       '@next/swc-linux-x64-musl': 16.1.7
       '@next/swc-win32-arm64-msvc': 16.1.7
       '@next/swc-win32-x64-msvc': 16.1.7
-      sass: 1.98.0
+      sass: 1.106.1
       sharp: 0.34.5
     transitivePeerDependencies:
       - '@babel/core'
@@ -7235,7 +7235,7 @@ snapshots:
 
   react@19.2.9: {}
 
-  readdirp@4.1.2: {}
+  readdirp@5.1.1: {}
 
   redent@3.0.0:
     dependencies:
@@ -7317,9 +7317,9 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  sass@1.98.0:
+  sass@1.106.1:
     dependencies:
-      chokidar: 4.0.3
+      chokidar: 5.0.0
       immutable: 5.1.9
       source-map-js: 1.2.2
     optionalDependencies:
