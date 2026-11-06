@@ -167,8 +167,8 @@ importers:
   .:
     dependencies:
       '@konopskidev/ui':
-        specifier: 0.2.1
-        version: 0.2.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(lucide-react@1.67.0(@types/react@19.3.0)(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(tailwindcss@4.3.4)
+        specifier: 0.3.0
+        version: 0.3.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(lucide-react@1.67.0(@types/react@19.3.0)(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(tailwindcss@4.3.4)
       lucide-react:
         specifier: 1.67.0
         version: 1.67.0(@types/react@19.3.0)(react@19.3.1)
@@ -908,8 +908,8 @@ packages:
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
 
-  '@konopskidev/ui@0.2.1':
-    resolution: {integrity: sha512-ncM4WdwZDkaTf2IFPomJlLa9eFm939//kGp91ftdy+Ij3uP5etpmDktdxdTnXAK0a2t60mT9IsOeQGRagZp5KA==}
+  '@konopskidev/ui@0.3.0':
+    resolution: {integrity: sha512-LnXXx0R8mf0CTKPZyCltR7LaOXV5Z3VBm3R6RNuRylDlUlos6/MKb9AhLvTrFFskPQkSK5RDEdfO1XB+1gOPcA==}
     engines: {node: '>=20'}
     peerDependencies:
       '@base-ui/react': ^1.9.0
@@ -5280,7 +5280,7 @@ snapshots:
 
   '@keyv/serialize@1.1.1': {}
 
-  '@konopskidev/ui@0.2.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(lucide-react@1.67.0(@types/react@19.3.0)(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(tailwindcss@4.3.4)':
+  '@konopskidev/ui@0.3.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(lucide-react@1.67.0(@types/react@19.3.0)(react@19.3.1))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(tailwindcss@4.3.4)':
     dependencies:
       class-variance-authority: 0.7.1
       cn: 0.5.0
