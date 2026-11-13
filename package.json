@@ -46,22 +46,22 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@konopskidev/ui": "0.5.1",
-    "lucide-react": "1.71.0",
+    "@konopskidev/ui": "0.6.0",
+    "lucide-react": "1.72.0",
     "next": "16.4.6",
     "next-themes": "0.4.6",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "3.0.0",
+    "@eslint-react/eslint-plugin": "5.30.2",
     "@eslint/js": "10.0.1",
     "@tailwindcss/postcss": "4.3.5",
     "@testing-library/dom": "10.4.2",
-    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
     "@types/jest": "30.0.0",
-    "@types/node": "24.19.2",
+    "@types/node": "26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@typescript-eslint/eslint-plugin": "8.72.2",
@@ -74,11 +74,11 @@
     "husky": "9.1.7",
     "jest": "30.5.2",
     "jest-environment-jsdom": "30.5.2",
-    "lint-staged": "16.4.0",
-    "prettier": "3.9.10",
+    "lint-staged": "17.6.0",
+    "prettier": "3.10.1",
     "tailwindcss": "4.3.5",
     "ts-node": "10.9.2",
-    "typescript": "5.9.3",
+    "typescript": "^6.0.3",
     "typescript-eslint": "8.72.2"
   },
   "resolutions": {
